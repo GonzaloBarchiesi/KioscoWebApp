@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <body>
+<div class="text-center">
+    <h1>Welcome</h1>
+</div>
+@using (Html.BeginForm("Login", "LoginController", FormMethod.Post))
+{
+    <table cellpadding="5">
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" name="Name" /></td>
+        </tr>
+
+        <tr>
+            <td>E-mail:</td>
+            <td>@Html.TextBox("Email") </td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td>@Html.TextBox("Password")</td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" value="Submit" />
+  
+}
+</body>
+</html>
