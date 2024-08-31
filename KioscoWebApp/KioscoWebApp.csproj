@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Include="Views\Home\Index.cshtml" />
+    <Page Include="Views\Products\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

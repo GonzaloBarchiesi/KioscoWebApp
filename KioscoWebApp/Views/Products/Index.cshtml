@@ -1,0 +1,71 @@
+﻿@using KioscoWebApp.Controllers
+@using System.Linq
+@model IEnumerable<Product>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Somos estudiantes de cuarto año y hemos creado este kiosco para recaudar fondos para nuestro viaje de egresados y los buzos. Con cada compra, nos ayudas a estar más cerca de cumplir este objetivo. ¡Gracias por tu apoyo!">
+    <meta name="keywords" content="El Rincón, Tu  Kioskito, Kiosco Biro, Biro, Kiosco escolar">
+    <meta name="copyright" content="El Rincón 2024">
+    <link rel="icon" href="/assets/logo/kisoco-16px.ico" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <title>Kiosco Biro</title>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img class="img-logo" src="/assets/logo/kisoco-modified.png" alt="Kiosco">
+        </div>
+        <div class="search">
+            <input type="search" placeholder="Buscar productos" id="searchBar">
+        </div>
+    </header>
+    <div class="wrapper">
+        <main class="grid-producto" id="main"></main>
+    </div>
+    <div class="product-container">
+        @foreach (var product in Model)
+        {
+            <div class="product-box">
+                <h2 class="producto">@product.ProductName</h2>
+                <p class="producto">Price : @product.Price</p>
+                <p class="producto"> Description: @product.Description</p>
+                @if (product.Quantity > 0)
+
+                {
+                    <img  class="producto" src ="@product.ProductImage">
+                }
+                else
+                
+                {
+                    <img class="producto" src ="@product.ProductImage2">
+                }
+                <button class="details-button" data-product-id="@product.ProductId">View Details</button>
+            </div>
+        }
+    </div>
+     @section Scripts {
+        <script>
+                 $(document).ready(function () {
+            $('.details-button').on('click', function () {
+                var productId = $(this).data('product-id');
+                // Redirect to the details page
+                window.location.href = '/Products/Details/?id=' + productId;
+            });
+
+
+        });
+        </script>
+    } 
+    <footer class="footer">
+        <a href="https://www.instagram.com/promo25biro/" target="_blank">
+            <img src="/assets/redes-sociales/instagram.svg" alt="Instagram">
+        </a>
+    </footer>
+     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/site.js"></script>
+</body>
+</html>
