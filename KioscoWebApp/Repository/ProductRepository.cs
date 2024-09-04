@@ -1,5 +1,6 @@
 ﻿using KioscoWebApp.Data;
 using KioscoWebApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace KioscoWebApp.Repository
 {
@@ -12,31 +13,32 @@ namespace KioscoWebApp.Repository
             _context = context;
         }
 
+      
         public Product GetProductPrice(int price)
         {
-            return _context.Product.Where(p => p.Price == price).FirstOrDefault();
+            return _context.Products.Where(p => p.Price == price).FirstOrDefault();
 
         }
         public Product GetProductQuant(int quantity)
         {
-            return _context.Product.Where(p => p.Quantity == quantity).FirstOrDefault();
+            return _context.Products.Where(p => p.Quantity == quantity).FirstOrDefault();
         }
         public Product GetProduct(int id)
         {
-            return _context.Product.Where(p => p.ProductId == id).FirstOrDefault();
+            return _context.Products.Where(p => p.ProductId == id).FirstOrDefault();
         }
 
         public Product GetProduct(string name)
         {
-            return _context.Product.Where(p => p.ProductName == name).FirstOrDefault();
+            return _context.Products.Where(p => p.ProductName == name).FirstOrDefault();
         }
         public ICollection<Product> GetProducts()
         {
-            return _context.Product.OrderBy(p => p.ProductId).ToList();
+            return _context.Products.OrderBy(p => p.ProductId).ToList();
         }
         public bool ProductExists(int productId)
         {
-            return _context.Product.Any(p => p.ProductId == productId);
+            return _context.Products.Any(p => p.ProductId == productId);
 
         }
     }

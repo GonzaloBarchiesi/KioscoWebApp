@@ -1,82 +1,155 @@
 ﻿using AutoMapper;
+using KioscoWebApp.Data;
 using KioscoWebApp.Dto;
 using KioscoWebApp.Models;
 using KioscoWebApp.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Configuration;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Windows.Input;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace KioscoWebApp.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("Products")]
+  
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
+        private readonly DataContext _context;
+       
 
-        public ProductsController(IProductRepository productRepository, IMapper mapper)
+        public ProductsController(IMapper mapper, DataContext context, IProductRepository productRepository)
         {
-            _productRepository = productRepository;
             _mapper = mapper;
+            _context = context;
+            _productRepository = productRepository;
         }
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
-        public IActionResult GetProducts()
+        [HttpGet("Index")]
+        public IActionResult Index(int id)
         {
-            var products = _mapper.Map<List<ProductDto>>(_productRepository.GetProducts());
+            var products =  _productRepository.GetProducts();
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            foreach (var product in products)
+            {
+                product.ProductImage = Url.Content($"~/assets/productos/{product.ProductName}.png");
+                product.ProductImage2 = Url.Content($"~/assets/NoStock/{product.ProductName}.jpg");
+            }
 
-            return Ok(products);
-
+            if (products == null)
+            {
+                Console.WriteLine("PRODUCT NULLLLLLLLLLLL");
+                return NotFound();
+            }
+            return View(products);
         }
-        [HttpGet("productId")]
-        [ProducesResponseType(200, Type = typeof(Product))]
-        [ProducesResponseType(400)]
-        public IActionResult GetProduct(int productId)
+      
+            [HttpGet]
+            [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
+            public IActionResult GetProducts()
+            {
+                var products = _mapper.Map<List<ProductDto>>(_productRepository.GetProducts());
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                return Ok(products);
+
+            }
+            [HttpGet("productId")]
+            [ProducesResponseType(200, Type = typeof(Product))]
+            [ProducesResponseType(400)]
+            public IActionResult GetProduct(int productId)
+            {
+           
+               //var product = _productRepository.GetProduct(productId);
+               var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
+                if (!_productRepository.ProductExists(productId))
+                {
+                    Console.WriteLine("Product doesnt exist");
+                    return NotFound();
+                
+                }
+           
+                if (!ModelState.IsValid)
+                {
+                    Console.WriteLine("Product isnt valid");
+                    return BadRequest(ModelState);
+                }
+                Console.WriteLine("Product is OK!");
+                return View(product); // Pass the product object as the model
+            }
+            [HttpGet("{productId}/price")]
+            [ProducesResponseType(400)]
+            [ProducesResponseType(200, Type = typeof(Product))]
+            public IActionResult GetProductPrice(int productId)
+            {
+                var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
+                if (!_productRepository.ProductExists(productId))
+                {
+                    return NotFound();
+                }
+
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                return Ok(product.Price);
+            }
+
+            [HttpGet("{productId}/quantity")]
+            [ProducesResponseType(400)]
+            [ProducesResponseType(200, Type = typeof(Product))]
+            public IActionResult GetProductQuant(int productId)
+            {
+                var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
+                if (!_productRepository.ProductExists(productId))
+                {
+                    return NotFound();
+                }
+
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                return Ok(product.Quantity);
+            }
+
+        [HttpPost]
+        public IActionResult Create(Product product)
         {
-            if (!_productRepository.ProductExists(productId)) ;
-            return NotFound();
-
-            var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(product);
+            if (ModelState.IsValid)
+            {
+                _context.Products.Add(product);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
         }
-        [HttpGet("{productId}/price")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(Product))]
-        public IActionResult GetProductPrice(int productId)
+        [HttpGet("Details")]
+        public IActionResult Details(int id)
         {
-            if (!_productRepository.ProductExists(productId)) ;
-            return NotFound();
+            var product = _context.Products.Find(id);
 
-            var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
+            
+                product.ProductImage = Url.Content($"~/assets/productos/{product.ProductName}.png");
+                product.ProductImage2 = Url.Content($"~/assets/NoStock/{product.ProductName}.jpg");
+            
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(product.Price);
+            if (product == null)
+            {
+                Console.WriteLine("Product Details: Product is null");
+                return NotFound();
+                
+            }
+            return View(product);  // Return a partial view with product details
         }
-
-        [HttpGet("{productId}/quantity")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(Product))]
-        public IActionResult GetProductQuant(int productId)
-        {
-            if (!_productRepository.ProductExists(productId)) ;
-            return NotFound();
-
-            var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(product.Quantity);
-        }
-
 
     }
 }

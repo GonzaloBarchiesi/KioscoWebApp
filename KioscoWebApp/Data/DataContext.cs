@@ -4,24 +4,18 @@ namespace KioscoWebApp.Data
 {
     public class DataContext : DbContext
     {
-        private DbContextOptionsBuilder _options;
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options): base (options)
         {
-
-
+           
         }
 
-        public DataContext(DbContextOptionsBuilder options)
-        {
-            _options = options;
-        }
-
-        public DbSet<Product> Product { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductCustomer> ProductCustomers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductCategory>()
@@ -46,6 +40,17 @@ namespace KioscoWebApp.Data
                .WithMany(pcu => pcu.ProductCustomers)
                .HasForeignKey(cu => cu.CustomerId);
 
+            modelBuilder.Entity<Category>()
+                .Property(c => c.CategoryId)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Category>()
+            .HasKey(p => new { p.CategoryId });
+
+            modelBuilder.Entity<Product>()
+                .Property(c => c.ProductId)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Product>()
+                .HasKey(p => new { p.ProductId});
         }
     }
 }

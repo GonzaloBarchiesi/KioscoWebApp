@@ -1,0 +1,45 @@
+﻿@model Product
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detalles del producto en Kiosco Biro">
+    <link rel="stylesheet" href="~/css/details.css">
+    <title>@Model.ProductName - Kiosco Biro</title>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img class="img-logo" src="/assets/logo/kisoco-modified.png" alt="Kiosco">
+        </div>
+        <div class="search">
+            <input type="search" placeholder="Buscar productos" id="searchBar">
+        </div>
+    </header>
+    <main class="product">
+        <div class="product-container">
+            <div>
+                <h1>@Model.ProductName</h1>
+                @if (@Model.Quantity > 0)
+                {
+                    <img src="@Model.ProductImage" alt="imagen-@Model.ProductName" class="product-image">
+                }
+
+                else
+                {
+                    <img src="@Model.ProductImage2" alt="imagen2-@Model.ProductName" class="product">
+                }
+                <button class="details-button">Back to products</button>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <a href="https://www.instagram.com/promo25biro/" target="_blank">
+            <img src="/assets/redes-sociales/instagram.svg" alt="Instagram">
+        </a>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/site.js"></script>
+</body>
+</html>
