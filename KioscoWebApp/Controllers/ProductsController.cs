@@ -14,10 +14,12 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace KioscoWebApp.Controllers
 {
-    [Route("Products")]
+   
   
     public class ProductsController : Controller
     {
+        //se obtienen instancias de: un mappeador de variables, la interfaz del repositorio
+        // y la dataContext para registrar los cambios en la base de datos
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
@@ -29,26 +31,51 @@ namespace KioscoWebApp.Controllers
             _context = context;
             _productRepository = productRepository;
         }
-        [HttpGet("Index")]
+
+        // metodo principal para ejecutar la vista de la pagina
+        [HttpGet]
         public IActionResult Index(int id)
         {
+            // se crea un array con todos los productos de la database a partir de metodo del repo 
             var products =  _productRepository.GetProducts();
 
+            //se asignan las imagenes a cada producto
             foreach (var product in products)
             {
                 product.ProductImage = Url.Content($"~/assets/productos/{product.ProductName}.png");
                 product.ProductImage2 = Url.Content($"~/assets/NoStock/{product.ProductName}.jpg");
             }
-
+            //se registra si el producto es null
             if (products == null)
             {
                 Console.WriteLine("PRODUCT NULLLLLLLLLLLL");
                 return NotFound();
             }
+            //Vista: (pasandose el producto)
             return View(products);
         }
+
+
+        //Metodo para Vista de la pagina de detalles de cada producto
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var product = _context.Products.Find(id);
+
+            if (product == null)
+            {
+                Console.WriteLine("Product is null");
+                return NotFound();
+            }
+            product.ProductImage = Url.Content($"~/assets/productos/{product.ProductName}.png");
+            product.ProductImage2 = Url.Content($"~/assets/NoStock/{product.ProductName}.jpg");
+
+            return View(product);  // Return a partial view with product details
+        }
+
       
-            [HttpGet]
+        //Metodo para obtner todos los productos        
+        [HttpGet]
             [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
             public IActionResult GetProducts()
             {
@@ -60,14 +87,17 @@ namespace KioscoWebApp.Controllers
                 return Ok(products);
 
             }
+
+
+            //Metodo para un prodc
             [HttpGet("productId")]
             [ProducesResponseType(200, Type = typeof(Product))]
             [ProducesResponseType(400)]
-            public IActionResult GetProduct(int productId)
+            public IActionResult GetProductById(int productId)
             {
            
                //var product = _productRepository.GetProduct(productId);
-               var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
+               var product = _mapper.Map<ProductDto>(_productRepository.GetProductById(productId));
                 if (!_productRepository.ProductExists(productId))
                 {
                     Console.WriteLine("Product doesnt exist");
@@ -83,12 +113,16 @@ namespace KioscoWebApp.Controllers
                 Console.WriteLine("Product is OK!");
                 return View(product); // Pass the product object as the model
             }
+
+
+
+            //Metodo para precio de produc
             [HttpGet("{productId}/price")]
             [ProducesResponseType(400)]
             [ProducesResponseType(200, Type = typeof(Product))]
             public IActionResult GetProductPrice(int productId)
             {
-                var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
+                var product = _mapper.Map<ProductDto>(_productRepository.GetProductById(productId));
                 if (!_productRepository.ProductExists(productId))
                 {
                     return NotFound();
@@ -102,12 +136,15 @@ namespace KioscoWebApp.Controllers
                 return Ok(product.Price);
             }
 
+
+
+            //Metodo para cant de product
             [HttpGet("{productId}/quantity")]
             [ProducesResponseType(400)]
             [ProducesResponseType(200, Type = typeof(Product))]
             public IActionResult GetProductQuant(int productId)
             {
-                var product = _mapper.Map<ProductDto>(_productRepository.GetProduct(productId));
+                var product = _mapper.Map<ProductDto>(_productRepository.GetProductById(productId));
                 if (!_productRepository.ProductExists(productId))
                 {
                     return NotFound();
@@ -121,6 +158,9 @@ namespace KioscoWebApp.Controllers
                 return Ok(product.Quantity);
             }
 
+
+
+        //Metodo para crear un producto (no se si sirve todavia, no entiendo dnd van las variables)
         [HttpPost]
         public IActionResult Create(Product product)
         {
@@ -132,24 +172,6 @@ namespace KioscoWebApp.Controllers
             }
             return View(product);
         }
-        [HttpGet("Details")]
-        public IActionResult Details(int id)
-        {
-            var product = _context.Products.Find(id);
-
-            
-                product.ProductImage = Url.Content($"~/assets/productos/{product.ProductName}.png");
-                product.ProductImage2 = Url.Content($"~/assets/NoStock/{product.ProductName}.jpg");
-            
-
-            if (product == null)
-            {
-                Console.WriteLine("Product Details: Product is null");
-                return NotFound();
-                
-            }
-            return View(product);  // Return a partial view with product details
-        }
-
+       
     }
 }

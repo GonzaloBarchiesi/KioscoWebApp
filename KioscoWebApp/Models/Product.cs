@@ -9,6 +9,9 @@
         public string Description { get; set; }
         public string ProductImage { get; set; }
         public string ProductImage2{ get; set; } 
+
+
+        //Foreign key:
         public ICollection<ProductCustomer> ProductCustomers { get; set; }
         public ICollection<ProductCategory> ProductCategories { get; set; }
 

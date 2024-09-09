@@ -10,6 +10,7 @@ namespace KioscoWebApp.AutoMapper
         public MappingProfiles()
         {
             CreateMap<Product, ProductDto>();
+            CreateMap<Category, CategoryDto>();
         }
     }
 }

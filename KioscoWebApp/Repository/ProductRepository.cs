@@ -23,12 +23,12 @@ namespace KioscoWebApp.Repository
         {
             return _context.Products.Where(p => p.Quantity == quantity).FirstOrDefault();
         }
-        public Product GetProduct(int id)
+        public Product GetProductById(int id)
         {
             return _context.Products.Where(p => p.ProductId == id).FirstOrDefault();
         }
 
-        public Product GetProduct(string name)
+        public Product GetProductName(string name)
         {
             return _context.Products.Where(p => p.ProductName == name).FirstOrDefault();
         }

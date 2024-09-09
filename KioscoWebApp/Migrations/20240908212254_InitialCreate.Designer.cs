@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KioscoWebApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240831200321_InitialCreate")]
+    [Migration("20240908212254_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
