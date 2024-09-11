@@ -11,7 +11,17 @@
 <body>
     <header class="header">
         <div class="logo">
-            <img class="img-logo" src="/assets/logo/kisoco-modified.png" alt="Kiosco">
+            <a href=""><img class="img-logo" src="/assets/logo/kisoco-modified.png" alt="Kiosco"></a>
+        </div>
+        <div class="categories">
+            <ul>
+                <li><button id="alfajoresBut">Alfajores</button></li>
+                <li><button id="bebidasBut">Bebidas</button></li>
+                <li><button id="snacksBut">Snacks</button></li>
+                <li><button id="chiclesBut">Chicles</button></li>
+                <li><button id="dulcesBut">Dulces</button></li>
+                <li><button id="galletitasBut">Galletitas</button></li>
+            </ul>
         </div>
         <div class="search">
             <input type="search" placeholder="Buscar productos" id="searchBar">
@@ -19,8 +29,7 @@
     </header>
     <main class="product">
         <div class="product-container">
-            <div>
-                <h1>@Model.ProductName</h1>
+            <div class="product-img">
                 @if (@Model.Quantity > 0)
                 {
                     <img src="@Model.ProductImage" alt="imagen-@Model.ProductName" class="product-image">
@@ -30,8 +39,13 @@
                 {
                     <img src="@Model.ProductImage2" alt="imagen2-@Model.ProductName" class="product">
                 }
-                <button class="details-button">Back to products</button>
             </div>
+            <div class="product-title">
+                <h1>@Model.ProductName</h1>
+            </div>
+            <p>lorem</p>
+
+@*             <button class="details-button">Back to products</button> *@
         </div>
     </main>
     <footer class="footer">
@@ -40,6 +54,6 @@
         </a>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="~/js/site.js"></script>
+    <script src="~/js/details.js"></script>
 </body>
 </html>

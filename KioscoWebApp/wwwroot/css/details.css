@@ -1,6 +1,13 @@
-﻿* {
-
+﻿html {
+    box-sizing: border-box;
 }
+
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+}
+
 button {
     background: transparent;
     border: none;
@@ -18,42 +25,26 @@ h1 {
    
 
 }
+
 .product-container{
+    width: 60%;
+    height: 69.5vh;
+    background-color: #fff; 
+    margin: 20px auto;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center
-    
+    border-radius: 20px;
+    border: solid 1px #ddd;
 }
-    .product-container div {
-        width: 750px;
-        height: 750px;
-        justify-content: center;
-        text-align: center;
-        
-        
-    }
-    .product img {
-        width: 500px;
-        margin: auto;
-        display: block;
-        
-    }
-    
-.product {
+
+.product-img {
+    margin: auto;
 }
-    .product h2 {
-        font-size: 1.5rem;
-        margin: 0;
-        color: black;
-        border: none;
-    }
-    .product p {
-        font-size: 1.5rem;
-        margin: 0;
-        color: black;
-        border: none;
-    }
+
+.product-title h1 {
+    margin: 50px 180px;
+    font-size: 2rem;
+}
+
 .footer {
     display: flex;
     background-color: var(--default-bg-color);

@@ -19,35 +19,45 @@
         <div class="logo">
             <img class="img-logo" src="/assets/logo/kisoco-modified.png" alt="Kiosco">
         </div>
+        <div class="categories">
+            <ul>
+                <li><button id="alfajoresBut">Alfajores</button></li>
+                <li><button id="bebidasBut">Bebidas</button></li>
+                <li><button id="snacksBut">Snacks</button></li>
+                <li><button id="chiclesBut">Chicles</button></li>
+                <li><button id="dulcesBut">Dulces</button></li>
+                <li><button id="galletitasBut">Galletitas</button></li>
+            </ul>
+        </div>
         <div class="search">
             <input type="search" placeholder="Buscar productos" id="searchBar">
+            <div></div>
         </div>
     </header>
 
     <div class="grid-producto">
         @foreach (var product in Model)
         {
-                <a class ="product-link"href="/Products/Details/?id=@product.ProductId">
-            <div class="producto">
+            <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
+                <div class="producto">
                 <h2 class="nombre-producto">@product.ProductName</h2>
                 <p class="precio-producto">Precio : $@product.Price</p>
                 @if (product.Quantity > 0)
 
                 {
-                    <img  class="" src ="@product.ProductImage">
+                    <img  class="producto" src ="@product.ProductImage">
                 }
                 else
                 
                 {
-                    <img class="" src="@product.ProductImage2">
+                        <img class="producto" src="@product.ProductImage2">
                 }
             
             </div>
             </a>
         }
     </div>
-    
-    <button id="alfajoresBut">Alfajores</button>
+  
      @section Scripts {
         <script>
                  $(document).ready(function () {
@@ -60,20 +70,7 @@
 
         });
 
-           $(document).ready(function () {
-                // Search bar functionality
-                $('#searchBar').on('input', function () {
-                    var query = $(this).val().toLowerCase(); // Get the search query
-                    $('.product-link').each(function () {
-                            var productName = $(this).find('.nombre-producto').text().toLowerCase();
-                                if (productName.includes(query)) {
-                                    $(this).show(); // Show the product if it matches
-                                } else {
-                                    $(this).hide(); // Hide the product if it doesn't match
-                                }
-                           });
-                });
-            });
+          
 
         </script>
     } 
