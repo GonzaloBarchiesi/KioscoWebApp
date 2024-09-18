@@ -40,8 +40,6 @@
         {
             <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
                 <div class="producto">
-                <h2 class="nombre-producto">@product.ProductName</h2>
-                <p class="precio-producto">Precio : $@product.Price</p>
                 @if (product.Quantity > 0)
 
                 {
@@ -52,11 +50,26 @@
                 {
                         <img class="producto" src="@product.ProductImage2">
                 }
+                    <h2 class="nombre-producto">@product.ProductName</h2>
+                    <p class="precio-producto">$@product.Price</p>
             
             </div>
             </a>
         }
     </div>
+    <form id = "myForm"action="https://formspree.io/f/mldrkglz"
+          method="POST">
+        <label>
+            <p id="formResponse">Email:</p>
+            <input type="email" name="email" placeholder="Ingresa tu email de BIRO:" required="" id="email">
+        </label>
+        <label>
+            Decinos tu opinion o sugerencia de la pagina 
+            <textarea name="message" required=""></textarea>
+        </label>
+      
+        <button type="submit" id="submitBut"> Send</button>
+    </form>
   
      @section Scripts {
         <script>

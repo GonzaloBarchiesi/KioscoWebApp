@@ -23,14 +23,17 @@ namespace KioscoWebApp.Controllers
             if (IsValidUser(username, password, customer.FirstName, customer.Password, customer))
             {
                 // Authentication successful, redirect to a specific page
-                return RedirectToAction("Index", "Home"); // Redirect to Home/Index after login
                 isLogged = true;
+                return RedirectToAction("Index", "Home"); // Redirect to Home/Index after login
+                
             }
 
             // If authentication fails, stay on the login page and show an error
             ViewBag.ErrorMessage = "Invalid username or password";
-            return View();
+
             isLogged = false;
+            return View();
+            
         }
         private bool IsValidUser(string username, string password, string firstName, string realPassword, Customer customer)
         {

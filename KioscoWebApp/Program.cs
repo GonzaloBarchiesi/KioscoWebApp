@@ -26,6 +26,7 @@ public class Program
         // Register repositories
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddEndpointsApiExplorer();
 

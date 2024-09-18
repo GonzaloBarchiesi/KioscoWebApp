@@ -11,6 +11,7 @@ namespace KioscoWebApp.AutoMapper
         {
             CreateMap<Product, ProductDto>();
             CreateMap<Category, CategoryDto>();
+            CreateMap<ProductCategory, ProductCategoryDto>();
         }
     }
 }
