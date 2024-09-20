@@ -30,7 +30,7 @@
             <input type="search" placeholder="Buscar productos" id="searchBar">
         </div>
     </header>
-    <main class="product">
+    <main class="product" id="product-main">
         <div class="product-container">
             <div class="product-img">
                 @if (@Model.Quantity > 0)
@@ -44,7 +44,7 @@
                 }
             </div>
             <div class="product-title">
-                <h1>@Model.ProductName</h1>
+                <h1 product-name="@Model.ProductName">@Model.ProductName</h1>
                 <p id="productId" productId="@Model.ProductId">
                 <p>@Model.Description</p>
                 <p>Precio: $@Model.Price</p>
