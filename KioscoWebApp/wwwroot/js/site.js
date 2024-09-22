@@ -1,5 +1,5 @@
 ﻿const searchBar = document.getElementById('searchBar');
-const query = document.getElementById('searchBar').value;
+const query = document.getElementById('searchBar').val; ue;
 function showElements() {
     var query = document.getElementById('searchBar').value; // Get the search query
     $('.producto-link').each(function () {
@@ -147,7 +147,7 @@ document.getElementById('myForm').addEventListener('submit', async function (eve
     const formData = new FormData(form);
 
     try {
-        const response = await fetch(form.action, {
+        let response = await fetch(form.action, {
             method: form.method,
             body: formData,
             headers: {
@@ -162,8 +162,9 @@ document.getElementById('myForm').addEventListener('submit', async function (eve
             document.getElementById('formResponse').innerText = "No se ha podido enviar el mensaje.";
         }
     } catch (error) {
+        console.log(error);
         document.getElementById('formResponse').innerText = "Un error ha ocurrido mientras se estaba enviando el formulario.";
-    }
+    }   
 });
 
  
