@@ -1,0 +1,128 @@
+﻿@using KioscoWebApp.Controllers
+@using System.Linq
+@model IEnumerable<Product>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Somos estudiantes de cuarto año y hemos creado este kiosco para recaudar fondos para nuestro viaje de egresados y los buzos. Con cada compra, nos ayudas a estar más cerca de cumplir este objetivo. ¡Gracias por tu apoyo!">
+    <meta name="keywords" content="El Rincón, Tu  Kioskito, Kiosco Biro, Biro, Kiosco escolar">
+    <meta name="copyright" content="El Rincón 2024">
+    <link rel="icon" href="/assets/logo/kisoco-16px.ico" type="image/png">
+    <link rel="stylesheet" href="~/assets/css/style.css" asp-append-version="true" type="text/css">
+    <title>Kiosco Biro</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/assets/logo/kisoco-modified.png" alt="Kiosco">
+            </div>
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-items" id="nav-items">
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Categorías<span>&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><button id="alfajoresBut">Alfajores</button></li>
+                            <li><button id="bebidasBut">Bebidas</button></li>
+                            <li><button id="snacksBut">Snacks</button></li>
+                            <li><button id="chiclesBut">Chicles</button></li>
+                            <li><button id="dulcesBut">Dulces</button></li>
+                            <li><button id="galletitasBut">Galletitas</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="#">Opiniones</a></li>
+                <li><a href="#">Promos</a></li>
+            </ul>
+            <div class="search">
+                <input type="search" placeholder="Buscar productos" id="searchBar">
+            </div>
+        </nav>
+    </header>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navItems = document.getElementById('nav-items');
+
+        hamburger.addEventListener('click', () => {
+            navItems.classList.toggle('open');
+            hamburger.classList.toggle('open');
+        });
+    </script>
+
+    <div class="grid-producto">
+        @foreach (var product in Model)
+        {
+            <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
+                <div class="producto">
+                @if (product.Quantity > 0)
+
+                {
+                    <img  class="producto" src ="@product.ProductImage">
+                }
+                else
+                
+                {
+                        <img class="producto" src="@product.ProductImage2">
+                }
+                    <h2 class="nombre-producto">@product.ProductName</h2>
+                    <p class="precio-producto">$@product.Price</p>
+            
+            </div>
+            </a>
+        }
+    </div>
+
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form id="myForm" action="https://formspree.io/f/mldrkglz"
+                      method="POST">
+                    <h2>Opiniones</h2>
+                    <div class="inputbox">
+                        <input type="email" name="email" required="" id="email" class="input">
+                        <label for="">Email</label>
+                    </div>
+                    <div class="inputbox">
+                        <textarea name="message" required="" placeholder="Decinos tu opinion o sugerencia de la pagina"></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBut" class="btn"> Send</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+     @section Scripts {
+        <script>
+                 $(document).ready(function () {
+            $('.details-button').on('click', function () {
+                var productId = $(this).data('product-id');
+                // Redirect to the details page
+                window.location.href = '/Products/Details/?id=' + productId;
+            });
+
+
+        });
+
+          
+
+        </script>
+    } 
+    <footer class="footer">
+        <a href="https://www.instagram.com/promo25biro/" target="_blank">
+            <img src="/assets/redes-sociales/instagram.svg" alt="Instagram">
+        </a>
+    </footer>
+     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/site.js"></script>
+</body>
+</html>
