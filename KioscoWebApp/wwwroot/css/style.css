@@ -8,35 +8,60 @@ html {
     box-sizing: inherit;
 }
 
-:root {
-    --default-bg-color: #0d83aa;
-}
-a {
-    text-decoration: none;
-    
-}
 body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
     background-color: #ebebeb;
-    font-family: sans-serif;
 }
 
-.header {
+.producto-link {
+    text-decoration: none;
+}
+
+:root {
+    --default-bg-color: #0d83aa;
+}
+
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    grid-auto-columns: 1fr 2fr 1fr;
-    padding: .5em 1em;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
     background-color: var(--default-bg-color);
-    width: 100%;
+}
+
+.logo img {
+    height: 100px;
+    width: auto;
+    cursor: pointer;
+}
+
+.nav-items {
+    display: flex;
+    list-style: none;
+    gap: 50px;
+}
+
+.nav-items li {
+    position: relative;
+}
+
+.nav-items a {
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    letter-spacing: 1.3px;
+    text-decoration: none;
+    display: block;
 }
 
 .search input {
     height: 40px;
     width: 100%;
-    padding: 10px 60px 10px 15px;
+    padding: 10px 10px 10px 15px;
     border-radius: 2px;
     border: .5px solid #fff;
     background-color: #fff;
@@ -44,37 +69,72 @@ body {
     color: #000;
     font-size: 1rem;
     outline: none;
-    
 }
 
-.img-logo {
-    height: 100px;
-    width: auto;
-    
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--default-bg-color);
+    min-width: 160px;
+    z-index: 1;
 }
-
-    .img-logo:hover {
-        cursor: pointer;
-    }
 
 ul {
     list-style: none;
-    display: flex;
-    justify-content: space-between;
+    padding: 5px;
 }
 
-li {
-    margin-right: 20px;
+span {
+    position: absolute;
 }
 
-li button {
-    background-color: transparent;
+.dropdown-content button {
+    background: none;
     border: none;
-    outline: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
     color: #fff;
+    font-size: 1.2rem;
     font-weight: bold;
-    font-size: 1.4rem;
-    letter-spacing: 1.3px;
+}
+
+    .dropdown-content button:hover {
+        background-color: #0d799d;
+    }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    z-index: 1001;
+}
+
+.bar {
+    width: 100%;
+    height: 4px;
+    background-color: white;
+    transition: 0.3s;
+}
+
+.hamburger.open .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(9.6px, -9.6px);
 }
 
 .grid-producto {
@@ -95,27 +155,25 @@ li button {
     border-radius: 5px;
   }
 
-    .producto img {
-        width: 250px;
-        height: 250px;
-        object-fit: contain;
-        margin: 30px 0px;
-        border: none;
-    }
+.producto img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin: 30px 0px;
+    border: none;
+}
 
-    .producto h2 {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 0;
-    }
+.producto h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
 
-    .producto p {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-top: 20px;
-    }
-    .producto:hover {
-    }
+.producto p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+}
 
 .footer {
     display: flex;
@@ -125,17 +183,17 @@ li button {
     align-items: center;
 }
 
-    .footer a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: 600;
-    }
+.footer a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
 
-    .footer img {
-        height: 30px;
-        vertical-align: middle;
-        display: inline-block;
-    }
+.footer img {
+    height: 30px;
+    vertical-align: middle;
+    display: inline-block;
+}
 
 .product-container {
     display: flex;
@@ -143,7 +201,42 @@ li button {
     gap: 20px;
 }
 
-@media only screen and (min-width: 670px) and (max-width: 1365px) {
+@media (max-width: 768px) {
+    .nav-items {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 40%;
+        height: 100%;
+        background-color: var(--default-bg-color);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+        margin: 0;
+    }
+
+    .nav-items.open {
+        transform: translateX(0);
+    }
+
+    .search {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-items li {
+        margin-bottom: 20px;
+        margin-right: 20px;
+    }
+}
+
+/*@media only screen and (min-width: 670px) and (max-width: 1365px) {
     .header {
         align-items: center;
         width: 100%;
@@ -257,4 +350,93 @@ li button {
     .producto p {
         font-size: .8rem;
     }
+}*/
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: url('background6.jpg')no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.form-box {
+    position: relative;
+    width: 400px;
+    height: 540px;
+    background-color: #fff;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.inputbox {
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+    border-bottom: 2px solid #000;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    pointer-events: none;
+    transition: .5s;
+}
+
+input:focus ~ label,
+input:valid ~ label {
+    top: -5px;
+}
+
+.inputbox .input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 35px 0 5px;
+}
+
+.btn {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #000;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    resize: none;
+}
+
+textarea::placeholder {
+    color: #000;
 }
