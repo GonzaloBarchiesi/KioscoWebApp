@@ -51,6 +51,7 @@ public class Program
         app.UseAuthorization();
         app.MapControllerRoute(name: "default", pattern: "{controller=Products}/{action=Index}/{id?}");
         app.MapControllerRoute(name: "Details", pattern: "{controller=Products}/{action=Details}/{id?}");
+        app.MapControllerRoute(name: "Form", pattern: "{controller=Form}/{action=Home}/{id?}");
         app.Run();
     }
 }

@@ -52,6 +52,7 @@ fetch("https://localhost:7202/productsCategories/GetProductCategories")
     .catch(error => console.error('Error fetching product categories:', error));
 
 // Function to choose random recommendations and update the HTML
+
 function ChooseRandomRecom(url) {
     fetchData(url).then(data => {
         if (!Array.isArray(data) || data.length === 0) {
@@ -60,7 +61,11 @@ function ChooseRandomRecom(url) {
         }
 
         const recomProducts = data;
-        const numRandoms = 15;
+        let numRandoms = 15;
+        if (recomProducts.length <= 15) {  
+            numRandoms = recomProducts.length -1; 
+        }
+
         const toShow = 5;
         let showedProducts = getUniqueRandomProducts(recomProducts, numRandoms);
 
@@ -93,9 +98,14 @@ function ChooseRandomRecom(url) {
 
         container.appendChild(rightButton); // Add right navigation button
 
+        const displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
+        const firstProduct = displayedContainers.shift();
+        const lastProduct = displayedContainers.pop();
+
         // Attach event listeners to the navigation buttons
-        rightButton.onclick = () => slideRight(container);
-        leftButton.onclick = () => slideLeft();
+        rightButton.onclick = () => slideRight(firstProduct, lastProduct);
+        leftButton.onclick = () => slideLeft(firstProduct, lastProduct);
+        $(leftButton).hide();
     })
         .catch(error => console.error('Error in ChooseRandomRecom:', error));
 }
@@ -129,7 +139,7 @@ function createNavigationButton(direction) {
     buttonIcon.appendChild(icon);
     return buttonIcon;
 }
-const closeButton = $(' .details-button');
+const closeButton = $('.details-button');
 function closePage() {
     window.location.href = '/Products/Index/';
 }
@@ -177,19 +187,21 @@ function createProductContainer(product, index, toShow) {
 
 // Slide functions
 
-function slideLeft() {
+function slideLeft(firstProduct, lastProduct) {
+    const container = document.getElementById('recommendationsContainer');
+    const leftButton = document.getElementById('button-left');
+    const rightButton = document.getElementById('button-right');
     let displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
     let hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-    const container = document.getElementById('recommendationsContainer');
-    let firstChild = displayedContainers[0];
-    let lastChild = displayedContainers[displayedContainers.length -1] // Intentando desaparecer el boton de scroll cuando el elemento ultimo/primero de los hiddenContainers sea igual 
-    console.log(lastChild)                                             // a el primer/ ultimo de los primeros productos que aparecen (displayedContainers(first & lastChild)
+    $(rightButton).show();
+  
     for (var i = 0; i < 5; i++) {
-        if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
-            // Move the last displayed container to hidden
+         displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
+        hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
+        function hideContainerL() {
             let containerToHide = displayedContainers.pop(); // Remove the last displayed container
-            containerToHide.classList.add('product-hidden-container');
             containerToHide.classList.remove('product-item-container');
+            containerToHide.classList.add('product-hidden-container');
             containerToHide.querySelectorAll('a').forEach(link => {
                 link.classList.remove('product-item-link', 'product-item');
                 link.classList.add('product-hidden-link')
@@ -198,14 +210,15 @@ function slideLeft() {
                 subItem.classList.remove('product-item');
                 subItem.classList.add('product-hidden');
             });
-
             containerToHide.querySelectorAll('p').forEach(subItem => {
                 subItem.classList.remove('product-item');
                 subItem.classList.add('product-hidden');
             });
-            $(containerToHide).hide(); // Hide the entire product container
-
-            // Bring the first hidden container to displayed
+            $(containerToHide).hide();
+            container.appendChild(containerToHide); // Add the hidden container to the end
+            return containerToHide;
+        }
+        function showContainerL() {
             let containerToShow = hiddenContainers.shift(); // Get the first hidden container
             containerToShow.classList.remove('product-hidden-container');
             containerToShow.classList.add('product-item-container');
@@ -217,44 +230,73 @@ function slideLeft() {
                 subItem.classList.remove('product-hidden');
                 subItem.classList.add('product-item');
             });
-            containerToShow.querySelectorAll('p').forEach(subItem => {
-                subItem.classList.remove('product-hidden');
-                subItem.classList.add('product-item');
-            });
             $(containerToShow).show(); // Show the entire product container
-
-            // Reinsert the updated containers to maintain the DOM order
-          
-            container.appendChild(containerToHide); // Add the hidden container to the end
             container.insertBefore(containerToShow, container.firstChild); // Add the displayed container to the beginning
+            return containerToShow;
+        }
+        if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
+            console.log("First ELement of hidden containers: ",  hiddenContainers[0], "First displayed element ever: ",  firstProduct);
+
+            if (hiddenContainers.length === 1) {
+                showContainer();
+
+                for (var x = 0; x < 5; x++) {
+                    hideContainerL();
+                }
+
+                $(leftButton).hide();
+                break;
+            }
+             else if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
+                hideContainerL();
+
+                for (var i = 0; i < 5; i++) {
+                    showContainerL();
+                }
+                $(rightButton).show();
+
+            }
+              if (displayedContainers[displayedContainers.length-2] === lastProduct) {
+                  $(leftButton).hide();
+                  $(firstProduct).show();
+                  $(lastProduct).show();
+                  i = 5;
+            }
+            hideContainerL();
+            showContainerL();
+           
         } else {
             console.log("No more products to slide left!");
+            $(leftButton).hide();
         }
     }
  
 }
 
-function slideRight() {
-    for (var i = 0; i < 5; i++) {
+function slideRight(firstProduct, lastProduct) {
+    const leftButton = document.getElementById('button-left');
+    const rightButton = document.getElementById('button-right');
+    const container = document.getElementById('recommendationsContainer');
+    $(leftButton).show();
+
+    for (var i = 0; i < 5; i++){
         let displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
         let hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-
-        console.log("Displayed Products: ", displayedContainers);
-        console.log("Hidden Products: ", hiddenContainers);
-
-        if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
-            // Move the last displayed container to hidden
-            let containerToHide = displayedContainers.shift(); // Remove the last displayed container
-            containerToHide.classList.add('product-hidden-container');
+        function hideContainerR() {
+            let containerToHide = displayedContainers.shift(); // Remove the first displayed container
             containerToHide.classList.remove('product-item-container');
+            containerToHide.classList.add('product-hidden-container');
             containerToHide.querySelectorAll('a').forEach(link => {
                 link.classList.remove('product-item-link', 'product-item');
                 link.classList.add('product-hidden-link', 'product-hidden');
             });
             $(containerToHide).hide(); // Hide the entire product container
-
-            // Bring the first hidden container to displayed
-            let containerToShow = hiddenContainers.shift(); // Get the first hidden container
+            container.insertBefore(containerToHide, container.firstChild);
+            return containerToHide;
+            
+        }
+        function showContainerR() {
+            let containerToShow = hiddenContainers.pop(); // Get the last hidden container
             containerToShow.classList.remove('product-hidden-container');
             containerToShow.classList.add('product-item-container');
             containerToShow.querySelectorAll('a').forEach(link => {
@@ -262,18 +304,48 @@ function slideRight() {
                 link.classList.add('product-item-link', 'product-item');
             });
             $(containerToShow).show(); // Show the entire product container
+            container.appendChild(containerToShow);
+            return containerToShow;
+        }
+      
+        if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
 
-            // Reinsert the updated containers to maintain the DOM order
-            const container = document.getElementById('recommendationsContainer');
-            container.appendChild(containerToHide); // Add the hidden container to the end
-            container.appendChild(containerToShow, container.firstChild); // Add the displayed container to the beginning
+            if (hiddenContainers.length === 1) {
+                showContainerR();
 
-            console.log("Updated Displayed Products: ", document.getElementsByClassName('product-item-container'));
-            console.log("Updated Hidden Products: ", document.getElementsByClassName('product-hidden-container'));
+                for (var x = 0; x < 5; x++) {
+                    hideContainerR();
+                }
+
+                $(rightButton).hide();
+                break;
+            }
+            else if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
+                hideContainerR();
+
+                for (var i = 0; i < 5; i++) {
+                    showContainerR();
+                }
+                $(leftButton).show();
+            }
+            if (hiddenContainers[hiddenContainers.length - 2] === firstProduct) {
+                $(rightButton).hide();
+                i = 5;
+                $(lastProduct).hide();
+            }
+           
+            hideContainerR();
+            showContainerR();
+           
+           
         } else {
-            console.log("No more products to slide left!");
+            console.log("No more products to slide right!");
+            $(rightButton).hide();
         }
     }
-    
 }
+
+
+    
+
 

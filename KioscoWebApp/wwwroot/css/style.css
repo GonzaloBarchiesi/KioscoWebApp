@@ -14,7 +14,6 @@ body {
     font-family: sans-serif;
     background-color: #ebebeb;
 }
-
 .producto-link {
     text-decoration: none;
 }
@@ -391,6 +390,7 @@ h2 {
 
 .inputbox label {
     position: absolute;
+}
     top: 50%;
     left: 5px;
     transform: translateY(-50%);
@@ -412,7 +412,6 @@ input:valid ~ label {
     outline: none;
     font-size: 1em;
     padding: 0 35px 0 5px;
-}
 
 .btn {
     width: 100%;

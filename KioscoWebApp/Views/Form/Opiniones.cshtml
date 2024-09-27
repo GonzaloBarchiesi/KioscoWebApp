@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+    <html>
+    <head>
+      <title>Compartenos tu opinion!</title>
+      <link rel=" stylesheet" href ="~/css/form.css">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/assets/logo/kisoco-modified.png" alt="Kiosco" onclick="closePage()">
+            </div>
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-items" id="nav-items">
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Categorías<span>&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><button id="alfajoresBut">Alfajores</button></li>
+                            <li><button id="bebidasBut">Bebidas</button></li>
+                            <li><button id="snacksBut">Snacks</button></li>
+                            <li><button id="chiclesBut">Chicles</button></li>
+                            <li><button id="dulcesBut">Dulces</button></li>
+                            <li><button id="galletitasBut">Galletitas</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a id="opinions">Opiniones</a></li>
+                <li><a href="#">Promos</a></li>
+            </ul>
+            <div class="search">
+                <input type="search" placeholder="Buscar productos" id="searchBar">
+            </div>
+        </nav>
+    </header>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form id="myForm" action="https://formspree.io/f/mldrkglz"
+                      method="POST">
+                    <h2>Opiniones</h2>
+                    <div class="inputbox">
+                        <input type="email" name="email" required="" id="email" class="input">
+                        <label for="">Email</label>
+                    </div>
+                    <div class="inputbox">
+                        <textarea name="message" required="" placeholder="Decinos tu opinion o sugerencia de la pagina"></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBut" class="btn"> Send</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <footer></footer>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/opiniones.js"></script>
+    </body>
+    </html>

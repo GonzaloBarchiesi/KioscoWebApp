@@ -1,7 +1,7 @@
 ﻿const searchBar = document.getElementById('searchBar');
-const query = document.getElementById('searchBar').val; ue;
+const query = document.getElementById('searchBar').value;
 function showElements() {
-    var query = document.getElementById('searchBar').value; // Get the search query
+    var query = document.getElementById('searchBar').value.toLowerCase(); // Get the search query
     $('.producto-link').each(function () {
         var productName = $(this).find('.nombre-producto').text().toLowerCase();
         if (productName.includes(query)) {
@@ -126,46 +126,12 @@ searchBar.addEventListener('keydown', function (a) {
 });
 
 
-
-const email = document.getElementById('email');
-const formResponse = document.getElementById('formResponse');
-const sendButton = document.getElementById('submitBut');
-sendButton.addEventListener('click', function (e) {
-
-    
-        if (!email.value.includes("@colegiobiro.edu.ar")) {
-            email.value = "";
-            emailTxt.textContent = "Ingrese un email del colegio biro";
-        }
-    
+const formGo = document.getElementById('opinions');
+formGo.addEventListener("click", function (f) {
+    window.location.href = 'Form/Opiniones';
 
 });
-  
-document.getElementById('myForm').addEventListener('submit', async function (event) {
-    event.preventDefault();  //Previniendo la conf. default del formulario
-    const form = event.target;
-    const formData = new FormData(form);
 
-    try {
-        let response = await fetch(form.action, {
-            method: form.method,
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            document.getElementById('formResponse').innerText = "El mensaje ha sido enviado de manera exitosa!";
-            form.reset();  //Reseteando el formulario despues de mandarlo
-        } else {
-            document.getElementById('formResponse').innerText = "No se ha podido enviar el mensaje.";
-        }
-    } catch (error) {
-        console.log(error);
-        document.getElementById('formResponse').innerText = "Un error ha ocurrido mientras se estaba enviando el formulario.";
-    }   
-});
 
  
 
