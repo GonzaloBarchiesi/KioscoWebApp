@@ -198,10 +198,12 @@ function slideLeft(firstProduct, lastProduct) {
     for (var i = 0; i < 5; i++) {
         displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
         hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-        function hideContainerL() {
-            let containerToHide = displayedContainers.pop(); // Remove the last displayed container
+    function hideContainerL() {
+        if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
             containerToHide.classList.remove('product-item-container');
             containerToHide.classList.add('product-hidden-container');
+            containerToHide.classList.add('product-hidden-container');
+            containerToHide.classList.remove('product-item-container');
             containerToHide.querySelectorAll('a').forEach(link => {
                 link.classList.remove('product-item-link', 'product-item');
                 link.classList.add('product-hidden-link')
@@ -212,13 +214,15 @@ function slideLeft(firstProduct, lastProduct) {
             });
             containerToHide.querySelectorAll('p').forEach(subItem => {
                 subItem.classList.remove('product-item');
-                subItem.classList.add('product-hidden');
+                $(containerToHide).hide();
+                container.appendChild(containerToHide); // Add the hidden container to the end
+                return containerToHide;
             });
-            $(containerToHide).hide();
-            container.appendChild(containerToHide); // Add the hidden container to the end
-            return containerToHide;
         }
+    }
         function showContainerL() {
+
+            // Bring the first hidden container to displayed
             let containerToShow = hiddenContainers.shift(); // Get the first hidden container
             containerToShow.classList.remove('product-hidden-container');
             containerToShow.classList.add('product-item-container');
@@ -285,6 +289,8 @@ function slideRight(firstProduct, lastProduct) {
         function hideContainerR() {
             let containerToHide = displayedContainers.shift(); // Remove the first displayed container
             containerToHide.classList.remove('product-item-container');
+            // Move the last displayed container to hidden
+            let containerToHide = displayedContainers.shift(); // Remove the last displayed container
             containerToHide.classList.add('product-hidden-container');
             containerToHide.querySelectorAll('a').forEach(link => {
                 link.classList.remove('product-item-link', 'product-item');
@@ -318,6 +324,7 @@ function slideRight(firstProduct, lastProduct) {
                 }
 
                 $(rightButton).hide();
+
                 break;
             }
             else if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
