@@ -62,8 +62,8 @@ function ChooseRandomRecom(url) {
 
         const recomProducts = data;
         let numRandoms = 15;
-        if (recomProducts.length <= 15) {  
-            numRandoms = recomProducts.length -1; 
+        if (recomProducts.length <= 15) {
+            numRandoms = recomProducts.length - 1;
         }
 
         const toShow = 5;
@@ -194,9 +194,9 @@ function slideLeft(firstProduct, lastProduct) {
     let displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
     let hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
     $(rightButton).show();
-  
+
     for (var i = 0; i < 5; i++) {
-         displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
+        displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
         hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
         function hideContainerL() {
             let containerToHide = displayedContainers.pop(); // Remove the last displayed container
@@ -235,7 +235,7 @@ function slideLeft(firstProduct, lastProduct) {
             return containerToShow;
         }
         if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
-            console.log("First ELement of hidden containers: ",  hiddenContainers[0], "First displayed element ever: ",  firstProduct);
+            console.log("First ELement of hidden containers: ", hiddenContainers[0], "First displayed element ever: ", firstProduct);
 
             if (hiddenContainers.length === 1) {
                 showContainer();
@@ -247,7 +247,7 @@ function slideLeft(firstProduct, lastProduct) {
                 $(leftButton).hide();
                 break;
             }
-             else if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
+            else if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
                 hideContainerL();
 
                 for (var i = 0; i < 5; i++) {
@@ -256,21 +256,21 @@ function slideLeft(firstProduct, lastProduct) {
                 $(rightButton).show();
 
             }
-              if (displayedContainers[displayedContainers.length-2] === lastProduct) {
-                  $(leftButton).hide();
-                  $(firstProduct).show();
-                  $(lastProduct).show();
-                  i = 5;
+            if (displayedContainers[displayedContainers.length - 2] === lastProduct) {
+                $(leftButton).hide();
+                $(firstProduct).show();
+                $(lastProduct).show();
+                i = 5;
             }
             hideContainerL();
             showContainerL();
-           
+
         } else {
             console.log("No more products to slide left!");
             $(leftButton).hide();
         }
     }
- 
+
 }
 
 function slideRight(firstProduct, lastProduct) {
@@ -279,7 +279,7 @@ function slideRight(firstProduct, lastProduct) {
     const container = document.getElementById('recommendationsContainer');
     $(leftButton).show();
 
-    for (var i = 0; i < 5; i++){
+    for (var i = 0; i < 5; i++) {
         let displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
         let hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
         function hideContainerR() {
@@ -293,7 +293,7 @@ function slideRight(firstProduct, lastProduct) {
             $(containerToHide).hide(); // Hide the entire product container
             container.insertBefore(containerToHide, container.firstChild);
             return containerToHide;
-            
+
         }
         function showContainerR() {
             let containerToShow = hiddenContainers.pop(); // Get the last hidden container
@@ -307,7 +307,7 @@ function slideRight(firstProduct, lastProduct) {
             container.appendChild(containerToShow);
             return containerToShow;
         }
-      
+
         if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
 
             if (hiddenContainers.length === 1) {
@@ -333,19 +333,15 @@ function slideRight(firstProduct, lastProduct) {
                 i = 5;
                 $(lastProduct).hide();
             }
-           
+
             hideContainerR();
             showContainerR();
-           
-           
+
+
         } else {
             console.log("No more products to slide right!");
             $(rightButton).hide();
         }
     }
 }
-
-
-    
-
 
