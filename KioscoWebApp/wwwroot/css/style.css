@@ -200,6 +200,9 @@ span {
     flex-wrap: wrap;
     gap: 20px;
 }
+#opinions:hover {
+    cursor: pointer;
+}
 
 @media only screen and (min-width: 897px) and (max-width: 1250px) {
     .img-logo {

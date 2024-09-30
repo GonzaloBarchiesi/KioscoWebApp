@@ -16,9 +16,8 @@ sendButton.addEventListener('click', function (e) {
 
     if (!email.value.includes("@colegiobiro.edu.ar")) {
         email.value = "";
-        emailTxt.textContent = "Ingrese un email del colegio biro";
+        email.textContent = "Ingrese un email del colegio biro";
     }
-
 
 });
 
@@ -50,4 +49,45 @@ document.getElementById('myForm').addEventListener('submit', async function (eve
 
 function closePage() {
     window.location.href = '/Products/Index/';
-}       
+}   
+
+const alfajoresButton = document.getElementById('alfajoresBut');
+const bebidasButton = document.getElementById('bebidasBut');
+const snacksButton = document.getElementById('snacksBut');
+const chiclesButton = document.getElementById('chiclesBut');
+const dulcesButton = document.getElementById('dulcesBut');
+const galletitasButton = document.getElementById('galletitasBut');
+
+function GetCategory(catId) {
+    let categoryId = catId;
+    window.location.href = `/Products/Index/?categoryId=${categoryId}`;
+}
+alfajoresButton.addEventListener('click', function () {
+     let catId = 1;
+    GetCategory(catId);
+});
+
+bebidasButton.addEventListener('click', function () {
+    let catId = 2;
+    GetCategory(catId);
+});
+
+snacksButton.addEventListener('click', function () {
+     let catId = 3;
+    GetCategory(catId);
+});
+
+chiclesButton.addEventListener('click', function () {
+    let catId = 4;
+    GetCategory(catId);
+});
+
+dulcesButton.addEventListener("click", function () {
+    let catId = 5;
+    GetCategory(catId)
+
+});
+galletitasButton.addEventListener('click', function () {
+    let catId = 6;
+    GetCategory(catId);
+});

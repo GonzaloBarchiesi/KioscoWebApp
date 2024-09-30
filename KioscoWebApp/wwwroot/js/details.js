@@ -8,6 +8,50 @@ searchBar.addEventListener('keypress', function (e) {
         document.location.href = url;
     }
 });
+const alfajoresButton = document.getElementById('alfajoresBut');
+const bebidasButton = document.getElementById('bebidasBut');
+const snacksButton = document.getElementById('snacksBut');
+const chiclesButton = document.getElementById('chiclesBut');
+const dulcesButton = document.getElementById('dulcesBut');
+const galletitasButton = document.getElementById('galletitasBut');
+
+const opinionesButton = document.getElementById('opiniones');
+opinionesButton.addEventListener("click", function (event) {
+    window.location.href = '/Form/Opiniones';
+});
+function GetCategory(catId) {
+    let categoryId = catId;
+    window.location.href = `/Products/Index/?categoryId=${categoryId}`;
+}
+alfajoresButton.addEventListener('click', function () {
+    let catId = 1;
+    GetCategory(catId);
+});
+
+bebidasButton.addEventListener('click', function () {
+    let catId = 2;
+    GetCategory(catId);
+});
+
+snacksButton.addEventListener('click', function () {
+    let catId = 3;
+    GetCategory(catId);
+});
+
+chiclesButton.addEventListener('click', function () {
+    let catId = 4;
+    GetCategory(catId);
+});
+dulcesButton.addEventListener("click", function () {
+    let catId = 5;
+    GetCategory(catId)
+
+});
+
+galletitasButton.addEventListener('click', function () {
+    let catId = 6;
+    GetCategory(catId);
+});
 
 //Fetchear 
 function fetchData(url) {
@@ -77,7 +121,7 @@ function ChooseRandomRecom(url) {
         const recomSubtitleDiv = document.createElement('div');
         recomSubtitleDiv.classList.add('recom-products');
         recomSubtitleDiv.id = ('recom-subtitle-div')
-        const recomSubtitle = document.createElement('p');
+        const recomSubtitle = document.createElement('h2');
         recomSubtitle.id = ('recom-subtitle');
         recomSubtitle.textContent = "Productos Relacionados";
         recomSubtitle.classList.add('recom-products');
@@ -198,7 +242,7 @@ function slideLeft(firstProduct, lastProduct) {
     for (var i = 0; i < 5; i++) {
         displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
         hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-        let containerToShow = hiddenContainers.shift();
+        console.log(hiddenContainers)
         function hideContainerL() {
             if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
                 let containerToHide = displayedContainers.pop();
@@ -223,9 +267,7 @@ function slideLeft(firstProduct, lastProduct) {
             }
         }
         function showContainerL() {
-
-            // Bring the first hidden container to displayed
-            // Get the first hidden container
+            let containerToShow = hiddenContainers.shift();
             containerToShow.classList.remove('product-hidden-container');
             containerToShow.classList.add('product-item-container');
             containerToShow.querySelectorAll('a').forEach(link => {
@@ -254,10 +296,10 @@ function slideLeft(firstProduct, lastProduct) {
                 break;
 
             }
-            else if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
+             if (displayedContainers.length === 1) {
                 hideContainerL();
 
-                for (var i = 0; i < 5; i++) {
+                for (var i = 0; i < 6; i++) {
                     showContainerL();
                 }
                 $(rightButton).show();
@@ -331,7 +373,7 @@ function slideRight(firstProduct, lastProduct) {
 
                 break;
             }
-            else if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
+             if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
                 hideContainerR();
 
                 for (var i = 0; i < 5; i++) {

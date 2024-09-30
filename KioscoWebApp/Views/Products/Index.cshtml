@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="/assets/logo/kisoco-modified.png" alt="Kiosco">
+                <img src="/assets/logo/kisoco-modified.png" alt="Kiosco" onclick="ShowItems()">
             </div>
             <div class="hamburger" id="hamburger">
                 <div class="bar"></div>
@@ -39,8 +39,8 @@
                         </ul>
                     </div>
                 </li>
-                <li><a href="#">Opiniones</a></li>
-                <li><a href="#">Promos</a></li>
+                <li><a id="opinions">Opiniones</a></li>
+                <li><a href="">Promos</a></li>
             </ul>
             <div class="search">
                 <input type="search" placeholder="Buscar productos" id="searchBar">
@@ -58,7 +58,7 @@
         });
     </script>
 
-    <div class="grid-producto">
+    <div class="grid-producto" id= "grid-producto">
         @foreach (var product in Model)
         {
             <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
@@ -81,25 +81,6 @@
         }
     </div>
 
-    <section>
-        <div class="form-box">
-            <div class="form-value">
-                <form id="myForm" action="https://formspree.io/f/mldrkglz"
-                      method="POST">
-                    <h2>Opiniones</h2>
-                    <div class="inputbox">
-                        <input type="email" name="email" required="" id="email" class="input">
-                        <label for="">Email</label>
-                    </div>
-                    <div class="inputbox">
-                        <textarea name="message" required="" placeholder="Decinos tu opinion o sugerencia de la pagina"></textarea>
-                    </div>
-
-                    <button type="submit" id="submitBut" class="btn"> Send</button>
-                </form>
-            </div>
-        </div>
-    </section>
 
      @section Scripts {
         <script>

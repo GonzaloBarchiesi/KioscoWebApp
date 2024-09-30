@@ -179,7 +179,7 @@ i:hover {
     margin: auto;
     margin-left: 20px;
     margin-right: 20px;
-   
+   text-decoration: none;
 }
     .product-item p {
         text-decoration: none;
@@ -301,7 +301,7 @@ display: block;
 }
     .product-item-container:hover {
        animation-name: glow;
-       animation-duration: 0.5s;
+       animation-duration: 0.2s;
        animation-fill-mode: forwards;
     }
 @keyframes glow {
@@ -310,40 +310,40 @@ display: block;
         
     }
     10% {
-        box-shadow: -0px 0px 2px hsl(0, 0%, 90%);
+        box-shadow: -0px 0px 1.5px hsl(0, 0%, 95%);
     }
     20% {
-        box-shadow: -0px 0px 3px hsl(0, 0%, 80%);
+        box-shadow: -0px 0px 2px hsl(0, 0%, 90%);
         
     }
     30% {
-        box-shadow: -0px 0px 4px hsl(0, 0%, 70%);
+        box-shadow: -0px 0px 2.5px hsl(0, 0%, 85%);
     }
     40% {
-        box-shadow: -0px 0px 5px hsl(0, 0%, 60%);
+        box-shadow: -0px 0px 3px hsl(0, 0%, 80%);
         
     }
     50% {
-        box-shadow: -0px 0px 6px hsl(0, 0%, 50%);
+        box-shadow: -0px 0px 3.5px hsl(0, 0%, 75%);
     }
     60% {
-        box-shadow: -0px 0px 7px hsl(0, 0%, 40%);
+        box-shadow: -0px 0px 4px hsl(0, 0%, 70%);
         
     }
     70% {
-        box-shadow: -0px 0px 8px hsl(0, 0%, 40%);
+        box-shadow: -0px 0px 4/5px hsl(0, 0%, 65%);
     }
 
     80% {
-        box-shadow: -0px 0px 9px hsl(0, 0%, 40%);
+        box-shadow: -0px 0px 5px hsl(0, 0%, 60%);
         
     }
     90% {
-        box-shadow: -0px 0px 10px hsl(0, 0%, 40%);
+        box-shadow: -0px 0px 5.5px hsl(0, 0%, 40%);
     }
 
     100% {
-        box-shadow: -0px 0px 10px hsl(0, 0%, 40%);
+        box-shadow: -0px 0px 6px hsl(0, 0%, 55%);
     }
 }
     .product-item p {
@@ -364,6 +364,6 @@ margin-bottom: 100px;
 #recom-subtitle{
     text-align: center;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 26px;
 
 }

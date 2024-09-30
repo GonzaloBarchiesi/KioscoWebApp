@@ -1,1 +1,36 @@
-﻿
+﻿html {
+    box-sizing: border-box;
+}
+* {
+
+}
+h1 {
+text-align: center;
+font-weight: bold;
+}
+main {
+
+}
+.text-form {
+text-align: center;
+}
+.footer {
+    display: flex;
+    background-color: var(--default-bg-color);
+    padding: 2em 1em;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+#opinions:hover {
+  cursor: pointer;
+}
+
+.text-form-div {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}

@@ -1,28 +1,59 @@
 ﻿const searchBar = document.getElementById('searchBar');
 const query = document.getElementById('searchBar').value;
+const productLinks = Array.from(document.getElementsByClassName('producto-link'));
 function showElements() {
     var query = document.getElementById('searchBar').value.toLowerCase(); // Get the search query
-    $('.producto-link').each(function () {
-        var productName = $(this).find('.nombre-producto').text().toLowerCase();
+    productLinks.forEach(link => {
+        var productName = $(link).find('.nombre-producto').text().toLowerCase();
         if (productName.includes(query)) {
-            $(this).show(); // Show the product if it matches
+            $(link).show() // Show the product if it matches
+            $(link).addClass('producto-link')
+            $(link).removeClass('producto-hidden-link')
+            link.querySelectorAll('.producto').forEach(productos => {
+                Array.from(productos).forEach(producto => {
+                    producto.show();
+                    producto.removeClass('product-hidden')
+                    producto.addClass('producto')
+                });
+            });
+            
         } else {
-            $(this).hide(); // Hide the product if it doesn't match
+            $(link).hide() // Hide the product if it doesn't match
+            $(link).addClass('producto-hidden-link')
+            $(link).removeClass('producto-link')
+            link.querySelectorAll('.producto').forEach(productos => {
+                Array.from(productos).forEach(producto => {
+                    producto.show();
+                    producto.removeClass('producto')
+                    producto.addClass('product-hidden')
+                })
+               
+            });
+          
+
         }
     });
 
 }
 window.onload = function () {
-    var url = document.location.href,
-        params = url.split('?')[1].split('&'),
-        data = {}, tmp;
+    const url = document.location.href;
+    params = url.split('?')[1].split('&');
+    let data = {};
+    let tmp;
     for (var i = 0, l = params.length; i < l; i++) {
         tmp = params[i].split('=');
-        data[tmp[0]] = tmp[1];
+        data[decodeURIComponent(tmp[0])] = decodeURIComponent(tmp[1]);
     }
-    searchBar.value = data.name;
-    showElements();
-    console.log(url);
+    if (url.includes('?name')) {
+        searchBar.value = data.name;
+        showElements();
+    }
+       
+    else if (data.categoryId) {
+        let url = `https://localhost:7202/categories/getProductByCategory/?categoryId=${data.categoryId}`;
+        fetchData(url)
+    }
+
     }
 let fetchData = function (fetchUrl) { // Iniciacion de la funcion fetchData para aplicarla a los botones
     fetch(fetchUrl)
@@ -100,20 +131,30 @@ document.getElementById('searchBar').addEventListener("input", (e) => {
     });
 //barra de navegacion - opcion ENTER
 
-  
-    searchBar.addEventListener('keypress', function (e) {
-        
-        if (e.key === 'Enter' ) {
-            $('.product-link').each(function () {
-                showElements();
-                if ($(this).find('.nombre-producto').text() == null) {
-                    // intentando lograr crear contenido en el caso de que no aparezcan ningun producto, para que no quede el fondo vacio.
-                     // por ahora no funciona bien el condicional...
-                }
+const gridProducto = document.getElementById('grid-producto');
+const allProductLinks = Array.from(document.getElementsByClassName('producto-link'));
+const allProducts = Array.from(document.getElementsByClassName('producto'));
+console.log(allProducts);
+searchBar.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+            console.log("YOU HAVE ENTERED ENTER :D!")
+        let allProducts = Array.from(document.getElementsByClassName('producto'));
+        if (allProducts.classList === 'producto-hidden') {
+            console.log("There are not products left..");
+            // intentando lograr crear contenido en el caso de que no aparezcan ningun producto, para que no quede el fondo vacio.
+            // por ahora no funciona bien el condicional...
+
+            noProducts = document.createElement('h2');
+            noProducts.classList.add('no-products');
+            noProducts.textContent = " Sorry, theres nothing related to your search!";
+            gridProducto.appendChild(noProducts);
+        }
+                
+                
                 
                     
                 
-            });
+            
         }
 
 });     
@@ -128,14 +169,19 @@ searchBar.addEventListener('keydown', function (a) {
 
 const formGo = document.getElementById('opinions');
 formGo.addEventListener("click", function (f) {
-    window.location.href = 'Form/Opiniones';
+    window.location.href = '/Form/Opiniones';
 
 });
 
+function ShowItems() {
+    allProducts.forEach(product => {
+        $(product).show();
+    });
+    allProductLinks.forEach(link => {
+        $(link).show();
+    });
+}
 
- 
-
- 
 
 
 
