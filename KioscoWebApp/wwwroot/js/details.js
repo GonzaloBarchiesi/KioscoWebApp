@@ -198,8 +198,8 @@ function createProductContainer(product, index, toShow) {
     // Assign attributes and styles
     linkP.href = `https://localhost:7202/Products/Details/?id=${product.productId}`;
     img.src = `/assets/productos/${product.productName}.png`;
-    img.style.width = '200px';
-    img.style.height = 'auto';
+    img.style.width = '240px';
+    img.style.height = '240px';
     nameP.textContent = product.productName;
     priceP.textContent = `${product.price}`;
 
