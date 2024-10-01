@@ -134,7 +134,7 @@ span {
 }
 
 .hamburger.open .bar:nth-child(3) {
-    transform: rotate(-45deg) translate(9.6px, -9.6px);
+    transform: rotate(-45deg) translate(10px, -10px);
 }
 
 .grid-producto {
@@ -200,11 +200,54 @@ span {
     flex-wrap: wrap;
     gap: 20px;
 }
-#opinions:hover {
-    cursor: pointer;
+
+@media (max-width: 768px) {
+    .nav-items {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 40%;
+        height: 100%;
+        background-color: var(--default-bg-color);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+        margin: 0;
+    }
+
+    .nav-items.open {
+        transform: translateX(0);
+    }
+
+    .search {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-items li {
+        margin-bottom: 20px;
+        margin-right: 20px;
+    }
 }
 
-@media only screen and (min-width: 897px) and (max-width: 1250px) {
+@media only screen and (min-width: 670px) and (max-width: 1365px) {
+    .header {
+        align-items: center;
+        width: 100%;
+    }
+
+/*    .search input {
+        height: 28px;
+        width: 100%;
+        margin: 5px;
+    }*/
+
     .img-logo {
         height: 50px;
         width: auto;
@@ -291,91 +334,6 @@ span {
     }
 }
 
-    section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        width: 100%;
-        background: url('background6.jpg')no-repeat;
-        background-position: center;
-        background-size: cover;
-    }
-
-    .form-box {
-        position: relative;
-        width: 400px;
-        height: 540px;
-        background-color: #fff;
-        border: 2px solid rgba(255,255,255,0.5);
-        border-radius: 20px;
-        backdrop-filter: blur(15px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    h2 {
-        font-size: 2em;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .inputbox {
-        position: relative;
-        margin: 30px 0;
-        width: 310px;
-        border-bottom: 2px solid #000;
-    }
-
-        .inputbox label {
-            position: absolute;
-            top: 50%;
-            left: 5px;
-            transform: translateY(-50%);
-            font-size: 1em;
-            pointer-events: none;
-            transition: .5s;
-        }
-
-    input:focus ~ label,
-    input:valid ~ label {
-        top: -5px;
-    }
-
-    .inputbox .input {
-        width: 100%;
-        height: 50px;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 1em;
-        padding: 0 35px 0 5px;
-    }
-
-    .btn {
-        width: 100%;
-        height: 40px;
-        border-radius: 40px;
-        background: #000;
-        color: #fff;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        font-size: 1em;
-        font-weight: 600;
-    }
-
-    textarea {
-        width: 100%;
-        height: 200px;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 1em;
-        resize: none;
-    }
-
-        textarea::placeholder {
-            color: #000;
-        }
+#opinions {
+    cursor: pointer;
+}
