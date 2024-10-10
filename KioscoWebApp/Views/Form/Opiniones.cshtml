@@ -1,46 +1,50 @@
-﻿<!DOCTYPE html>
-    <html>
-    <head>
-      <title>Compartenos tu opinion!</title>
-      <link rel=" stylesheet" href ="~/css/form.css">
+﻿﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compartenos tu opinion!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel=" stylesheet" href="~/css/form.css">
     <link rel="icon" href="/assets/logo/kisoco-16px.ico" type="image/png">
-        <meta charset="UTF-8">
-    </head>
-    <body>
-        <header>
-            <nav class="navbar">
-                <div class="logo">
-                    <img src="/assets/logo/kisoco-modified.png" alt="Kiosco" onclick="closePage()">
-                </div>
-                <div class="hamburger" id="hamburger">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                <ul class="nav-items" id="nav-items">
-                    <li class="dropdown">
-                        <a href="#" class="dropbtn">Categorías<span>&#9662;</span></a>
-                        <div class="dropdown-content">
-                            <ul>
-                                <li><button id="alfajoresBut">Alfajores</button></li>
-                                <li><button id="bebidasBut">Bebidas</button></li>
-                                <li><button id="snacksBut">Snacks</button></li>
-                                <li><button id="chiclesBut">Chicles</button></li>
-                                <li><button id="dulcesBut">Dulces</button></li>
-                                <li><button id="galletitasBut">Galletitas</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a id="opinions">Opiniones</a></li>
-                    <li><a href="#">Promos</a></li>
-                </ul>
-                <div class="search">
-                    <input type="search" placeholder="Buscar productos" id="searchBar">
-                </div>
-            </nav>
-        </header>
-        <main>
-        <div class = "text-form-div">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/assets/logo/kisoco-modified.png" alt="Kiosco" onclick="closePage()">
+            </div>
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-items" id="nav-items">
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Categorías<span>&#9662;</span></a>
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><button id="alfajoresBut">Alfajores</button></li>
+                            <li><button id="bebidasBut">Bebidas</button></li>
+                            <li><button id="snacksBut">Snacks</button></li>
+                            <li><button id="chiclesBut">Chicles</button></li>
+                            <li><button id="dulcesBut">Dulces</button></li>
+                            <li><button id="galletitasBut">Galletitas</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a id="opinions">Opiniones</a></li>
+                <li><a href="#">Promos</a></li>
+            </ul>
+            <div class="search">
+                <input type="search" placeholder="Buscar productos" id="searchBar">
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="text-form-div">
             <h1>Compartí tu Opinión</h1>
             <p class="text-form">
                 Tenes alguna recomendación o sugerencia para implementar en el kiosco/web? <br>
@@ -50,9 +54,9 @@
             <p class="text-form">
                 Estamos dispuestos a leer sus sugerencias, se deben respetar los lineamientos generales de todo forumulario
             </p>
-                </div>
-            
-            <section>
+        </div>
+
+        <section>
             <div class="form-box">
                 <div class="form-value">
                     <form id="myForm" action="https://formspree.io/f/mldrkglz"
@@ -71,13 +75,13 @@
                 </div>
             </div>
         </section>
-        </main>
-        <footer class="footer">
-            <a href="https://www.instagram.com/promo25biro/" target="_blank">
-                <img src="/assets/redes-sociales/instagram.svg" alt="Instagram">
-            </a>
-        </footer>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="~/js/opiniones.js"></script>
-    </body>
-    </html>
+    </main>
+    <footer class="footer">
+        <a href="https://www.instagram.com/promo25biro/" target="_blank">
+            <img src="/assets/redes-sociales/instagram.svg" alt="Instagram">
+        </a>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/opiniones.js"></script>
+</body>
+</html>
