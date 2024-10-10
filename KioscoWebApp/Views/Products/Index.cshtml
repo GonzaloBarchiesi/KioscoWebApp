@@ -1,4 +1,4 @@
-﻿@using KioscoWebApp.Controllers
+﻿﻿@using KioscoWebApp.Controllers
 @using System.Linq
 @model IEnumerable<Product>
 
@@ -10,6 +10,9 @@
     <meta name="description" content="Somos estudiantes de cuarto año y hemos creado este kiosco para recaudar fondos para nuestro viaje de egresados y los buzos. Con cada compra, nos ayudas a estar más cerca de cumplir este objetivo. ¡Gracias por tu apoyo!">
     <meta name="keywords" content="El Rincón, Tu  Kioskito, Kiosco Biro, Biro, Kiosco escolar">
     <meta name="copyright" content="El Rincón 2024">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="icon" href="/assets/logo/kisoco-16px.ico" type="image/png">
     <link rel="stylesheet" href="~/assets/css/style.css" asp-append-version="true" type="text/css">
     <title>Kiosco Biro</title>
@@ -58,52 +61,54 @@
         });
     </script>
 
-    <div class="grid-producto" id= "grid-producto">
-        @foreach (var product in Model)
-        {
-            <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
-                <div class="producto">
-                @if (product.Quantity > 0)
+    <div class="wrapper">
+        <div class="grid-producto" id="grid-producto">
+            @foreach (var product in Model)
+            {
+                <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
+                    <div class="producto">
+                        @if (product.Quantity > 0)
 
-                {
-                    <img  class="producto" src ="@product.ProductImage">
-                }
-                else
-                
-                {
-                        <img class="producto" src="@product.ProductImage2">
-                }
-                    <h2 class="nombre-producto">@product.ProductName</h2>
-                    <p class="precio-producto">$@product.Price</p>
-            
-            </div>
-            </a>
-        }
+                        {
+                            <img class="producto" src="@product.ProductImage">
+                        }
+                        else
+
+                        {
+                            <img class="producto" src="@product.ProductImage2">
+                        }
+                        <h2 class="nombre-producto">@product.ProductName</h2>
+                        <p class="precio-producto">$@product.Price</p>
+
+                    </div>
+                </a>
+            }
+        </div>
     </div>
 
 
-     @section Scripts {
+    @section Scripts {
         <script>
-                 $(document).ready(function () {
-            $('.details-button').on('click', function () {
-                var productId = $(this).data('product-id');
-                // Redirect to the details page
-                window.location.href = '/Products/Details/?id=' + productId;
+            $(document).ready(function () {
+                $('.details-button').on('click', function () {
+                    var productId = $(this).data('product-id');
+                    // Redirect to the details page
+                    window.location.href = '/Products/Details/?id=' + productId;
+                });
+
+
             });
 
 
-        });
-
-          
 
         </script>
-    } 
+    }
     <footer class="footer">
         <a href="https://www.instagram.com/promo25biro/" target="_blank">
             <img src="/assets/redes-sociales/instagram.svg" alt="Instagram">
         </a>
     </footer>
-     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="~/js/site.js"></script>
 </body>
 </html>
