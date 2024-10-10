@@ -1,10 +1,203 @@
-﻿// Search bar logic for redirecting to the search page
+﻿//funciones principales para display productos recomendados
+
+let productsPerPage; //productos por pagina recomendados\
+let beforeProductsPerPage;
+let currentIndex = 0;
+let endIndex = 0;
+setProductsPerPage();
+
+function setProductsPerPage() { //ajustar productos per swipe
+    let windowWidth = window.innerWidth;
+    beforeProductsPerPage = productsPerPage;
+    if (windowWidth > 1450) {
+        productsPerPage = 5;
+    } else if (windowWidth >= 1180) {
+        productsPerPage = 4;
+    } else if (windowWidth >= 830) {
+        productsPerPage = 3;
+    } else {
+        productsPerPage = 2;
+    }
+    //if (beforeProductsPerPage > productsPerPage) {
+    //    currentIndex++;
+    //}
+    
+    //if (currentIndex % productsPerPage != 0) {
+    //    let x = currentIndex % productsPerPage;
+    //    currentIndex -= x;
+    //}
+    initializeProducts(currentIndex); //inicializar productos en base a este cambio
+    return { productsPerPage, beforeProductsPerPage };
+}
+window.addEventListener("resize", (event) => { //Cada vez que la pagina comete risize se actualizan los productos
+    setProductsPerPage();
+});
+
+const product = document.getElementById('productId');
+const productId = product ? parseInt(product.getAttribute('productId'), 10) : null;
+let url = "";
+// Function to fetch and display products
+async function initializeProducts(index) {
+    const fetchedUrl = await fetchCategory();
+    if (fetchedUrl) {
+        fetchProducts(fetchedUrl, currentIndex); 
+    }
+}
+
+async function fetchCategory() {
+    try {
+        const response = await fetch("https://localhost:7202/productsCategories/GetProductCategories");
+        const data = await response.json();
+        let recomCategory = null;
+
+        for (const item of data) {
+            if (item.productId === productId) {
+                recomCategory = item.categoryId;
+                console.log("Found category for product:", recomCategory);
+                break;
+            }
+        }
+
+        if (recomCategory) {
+            const url = `https://localhost:7202/categories/getProductByCategory/?categoryId=${recomCategory}`;
+            return url; // Return the URL here
+        } else {
+            console.log("No category found for the given productId.");
+            return null; // Return null if no category is found
+        }
+    } catch (error) {
+        console.error('Error fetching product categories:', error);
+        return null; // Return null in case of an error
+    }
+}
+
+
+ async function fetchProducts(url, index) {
+     try {
+         const response = await fetch(url); // URL to your JSON file
+         if (!response.ok) {
+             throw new Error(`HTTP error! status: ${response.status}`);
+         }
+         let products = await response.json();
+       
+         const { buttonL, buttonR } = displayProducts(index, products);
+         // Event listeners for the navigation buttons
+         buttonR.addEventListener("click", () => {
+             if (currentIndex + productsPerPage < products.length) {
+                 currentIndex += productsPerPage;
+                 initializeProducts(currentIndex);
+                 //fetchProducts(url, currentIndex);
+             }
+            
+         });
+         buttonL.addEventListener("click", () => {
+             if (currentIndex >= productsPerPage) {
+                 currentIndex -= productsPerPage;
+                 initializeProducts(currentIndex);
+                 if (currentIndex <= 0) {
+                     $(buttonL).hide();
+                 }
+             }
+         });
+
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+}
+  function displayProducts(startIndex, products) {
+    let productsContainer = document.getElementById("recommendationsContainer");
+    productsContainer.innerHTML = ""; // Clear the container
+      endIndex = startIndex + productsPerPage;
+      if (endIndex % productsPerPage != 0) {
+          if (products.length <= endIndex) {
+              endIndex = products.length - 1;
+              startIndex = endIndex - productsPerPage;
+          }
+          
+      }
+
+    const buttonL = document.createElement("button");
+    buttonL.classList.add("icon-button")
+    buttonL.id = "button-left";
+
+    const iconL = document.createElement("i");
+    iconL.classList.add("material-symbols-outlined");
+    iconL.id = "icon-left";
+    buttonL.appendChild(iconL);
+
+    const buttonR = document.createElement("button");
+    buttonR.classList.add("icon-button")
+    buttonR.id = ("button-right");
+
+    const iconR = document.createElement("i");
+    iconR.classList.add("material-symbols-outlined");
+    iconR.id = "icon-right";
+    buttonR.appendChild(iconR);
+
+    productsContainer.appendChild(buttonL);
+    productsContainer.appendChild(buttonR);
+ 
+      for (var i = 0; i < products.length; i++) {
+          if (products[i] === undefined) {
+              break;
+          }
+          let product = products[i];
+          if (productId === product.productId) {
+              products.splice(i, 1);
+          }
+      }
+      let productsToShow = products.slice(startIndex, endIndex); // Get the products to display
+      Array.from(productsToShow).forEach(product => {
+         
+          // Create product elements
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("product-item-container");
+
+          const linkP = document.createElement("a");
+          linkP.href = `/Products/Details/?id=${product.productId}`
+          linkP.classList.add('product-item-link');
+
+          const img = document.createElement("img");
+          img.src = `/assets/productos/${product.productName}.png`;
+          img.alt = product.productName;
+          img.classList.add("product-item")
+
+          const name = document.createElement("p");
+          name.textContent = product.productName;
+          name.classList.add("product-item")
+
+          const price = document.createElement("p");
+          price.textContent = `$${product.price}`;
+          price.classList.add("product-item")
+
+          // Append elements to product div
+          productDiv.appendChild(linkP);
+          linkP.appendChild(img);
+          linkP.appendChild(name);
+          linkP.appendChild(price);
+
+          // Append product div to container
+          productsContainer.appendChild(productDiv);
+
+      });
+      currentIndex = startIndex;
+      return { buttonL, buttonR };
+      }
+
+
+// Otras funciones de la pagina---------------------------
+
+function closePage() {
+    window.location.href = "/Products/Index"
+}
+
+// Search bar logic for redirecting to the search page
 const searchBar = document.getElementById('searchBar');
 searchBar.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         var search = searchBar.value;
         console.log('Search Value: ' + search);
-        url = `https://localhost:7202/Products/Index/?name=` + encodeURIComponent(search);
+        url = "https://localhost:7202/Products/Index/?name=" + encodeURIComponent(search);
         document.location.href = url;
     }
 });
@@ -21,7 +214,7 @@ opinionesButton.addEventListener("click", function (event) {
 });
 function GetCategory(catId) {
     let categoryId = catId;
-    window.location.href = `/Products/Index/?categoryId=${categoryId}`;
+    window.location.href = `/Products/Index/?categoryId =${categoryId}`;
 }
 alfajoresButton.addEventListener('click', function () {
     let catId = 1;
@@ -52,412 +245,3 @@ galletitasButton.addEventListener('click', function () {
     let catId = 6;
     GetCategory(catId);
 });
-
-//Fetchear 
-function fetchData(url) {
-    return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error('Error in fetchData:', error);
-            throw error; // Re-throw error for further handling
-        });
-}
-
-// Fetch product categories and find the corresponding category
-const product = document.getElementById('productId');
-const productId = product ? parseInt(product.getAttribute('productId'), 10) : null;
-const productName = document.querySelector("h1[product-name]");
-
-fetch("https://localhost:7202/productsCategories/GetProductCategories")
-    .then(response => response.json())
-    .then(data => {
-        let recomCategory = null;
-        for (const item of data) {
-            if (item.productId === productId) {
-                recomCategory = item.categoryId;
-                console.log("Found category for product:", recomCategory);
-                break;
-            }
-        }
-
-        if (recomCategory) {
-            const url = `https://localhost:7202/categories/getProductByCategory/?categoryId=${recomCategory}`;
-            console.log(url);
-            ChooseRandomRecom(url);
-        } else {
-            console.log("No category found for the given productId.");
-        }
-    })
-    .catch(error => console.error('Error fetching product categories:', error));
-
-// Function to choose random recommendations and update the HTML
-
-function ChooseRandomRecom(url) {
-    fetchData(url).then(data => {
-        if (!Array.isArray(data) || data.length === 0) {
-            console.log('No recommended products found.');
-            return;
-        }
-
-        const recomProducts = data;
-        let displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
-        let hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-        let firstDisplayedProduct = displayedContainers.shift();
-        let lastDisplayedProduct = displayedContainers.pop();
-        let numRandoms = 15;
-        let toShow = 5;
-        let previousWidth = window.innerWidth;
-        toShow = setToShow(previousWidth);
-
-
-        window.addEventListener("resize", (event) => {
-            let windowWidth = window.innerWidth;
-            displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
-            hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-            setToShow(windowWidth);
-            previousWidth = windowWidth;   
-        });
-        function setToShow(windowWidth) {
-            if (windowWidth > 1450 && displayedContainers.length != 5) {
-                toShow = 5;
-                if (displayedContainers.length === 0) {
-                    return toShow;
-                }
-                else {
-                    resetProducts(windowWidth, previousWidth, toShow, displayedContainers, hiddenContainers);
-                }
-            } else if (1450 > windowWidth && windowWidth >= 1180 && displayedContainers.length != 4) {
-                toShow = 4;
-                if (displayedContainers.length === 0) {
-                    return toShow;
-                }
-                else {
-                    resetProducts(windowWidth, previousWidth, toShow, displayedContainers, hiddenContainers);
-                }
-            } else if (1180 > windowWidth && windowWidth >= 830 && displayedContainers.length != 3) {
-                toShow = 3;
-                if (displayedContainers.length === 0) {
-                    return toShow;
-                }
-                else {
-                    resetProducts(windowWidth, previousWidth, toShow, displayedContainers, hiddenContainers);
-                }
-            } else if (830 > windowWidth && displayedContainers.length > 2) {
-                toShow = 2;
-                if (displayedContainers.length === 0) {
-                    return toShow;
-                }
-                else {
-                    resetProducts(windowWidth, previousWidth, toShow, displayedContainers, hiddenContainers);
-                }
-            }
-        }
-        function resetProducts(windowWidth, previousWidth, toShow, displayedContainers, hiddenContainers) {
-            displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
-            hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-            if (displayedContainers.length > toShow) {
-                    displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
-                    lastDisplayedProduct = displayedContainers.pop();
-                    lastDisplayedProduct.classList.remove('product-item-container');
-                    lastDisplayedProduct.classList.add('product-hidden-container');
-                    container.insertBefore(lastDisplayedProduct, container.firstChild); 
-                    $(lastDisplayedProduct).hide();                                                      
-            }
-            else if (displayedContainers.length < toShow /*&& toShow != displayedContainers.length*/) {
-               
-                    hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-                    let firstHidden = hiddenContainers.shift();
-                    firstHidden.classList.remove('product-hidden-container');
-                    firstHidden.classList.add('product-item-container');
-                    $(firstHidden).show();
-                container.appendChild(firstHidden);
-
-            }
-        }
-        let showedProducts = getUniqueRandomProducts(recomProducts, numRandoms);
-
-        if (showedProducts.length === 0) return;
-
-        const container = document.getElementById('recommendationsContainer');
-        container.innerHTML = ''; // Clear previous recommendations
-
-        const recomSubtitleDiv = document.createElement('div');
-        recomSubtitleDiv.classList.add('recom-products');
-        recomSubtitleDiv.id = ('recom-subtitle-div')
-        const recomSubtitle = document.createElement('h2');
-        recomSubtitle.id = ('recom-subtitle');
-        recomSubtitle.textContent = "Productos Relacionados";
-        recomSubtitle.classList.add('recom-products');
-        recomSubtitleDiv.appendChild(recomSubtitle);
-        container.appendChild(recomSubtitleDiv);
-
-        // Create navigation buttons
-        let leftButton = createNavigationButton('left');
-        let rightButton = createNavigationButton('right');
-
-        container.appendChild(leftButton); // Add left navigation button
-
-        // Display recommended products
-        showedProducts.forEach((product, index) => {
-            let productContainer = createProductContainer(product, index, toShow);
-            container.appendChild(productContainer);
-        });
-
-        container.appendChild(rightButton); // Add right navigation button
-
-       
-
-        // Attach event listeners to the navigation buttons
-        rightButton.onclick = () => slideRight(firstDisplayedProduct, lastDisplayedProduct);
-        leftButton.onclick = () => slideLeft(firstDisplayedProduct, lastDisplayedProduct);
-        $(leftButton).hide();
-    })
-            .catch(error => console.error('Error in ChooseRandomRecom:', error));
-    }
-
-    // Function to generate unique random products
-    function getUniqueRandomProducts(recomProducts, numRandoms) {
-        let uniqueProducts = new Set();
-
-        while (uniqueProducts.size < numRandoms) {
-            let randomIndex = Math.floor(Math.random() * recomProducts.length);
-            let product = recomProducts[randomIndex];
-
-            // Avoid duplicate products and the currently viewed product
-            if (!uniqueProducts.has(product.productName) && product.productName !== productName.textContent) {
-                uniqueProducts.add(product);
-            }
-        }
-
-        return Array.from(uniqueProducts);
-    }
-
-    // Function to create a navigation button (left/right)
-    function createNavigationButton(direction) {
-        let buttonIcon = document.createElement('button');
-        buttonIcon.classList.add('icon-button');
-        buttonIcon.id = `button-${direction}`;
-        let icon = document.createElement('i');
-        icon.classList.add('material-symbols-outlined', 'nav-icon');
-        icon.id = `icon-${direction}`;
-        icon.textContent = direction === 'left' ? 'chevron_left' : 'chevron_right'; // Add icon
-        buttonIcon.appendChild(icon);
-        return buttonIcon;
-    }
-    const closeButton = $('.details-button');
-    function closePage() {
-        window.location.href = '/Products/Index/';
-    }
-    // Function to create a product container and populate its content
-    function createProductContainer(product, index, toShow) {
-        let productContainer = document.createElement('div');
-        let linkP = document.createElement('a');
-        let img = document.createElement('img');
-        let nameP = document.createElement('p');
-        let priceP = document.createElement('p');
-
-        // Assign attributes and styles
-        linkP.href = `https://localhost:7202/Products/Details/?id=${product.productId}`;
-        img.src = `/assets/productos/${product.productName}.png`;
-        img.style.width = '240px';
-        img.style.height = '240px';
-        nameP.textContent = product.productName;
-        priceP.textContent = `${product.price}`;
-
-        // Add classes based on whether the product is initially visible or hidden
-        if (index >= toShow) {
-            productContainer.classList.add('product-hidden-container');
-            linkP.classList.add('product-hidden-link');
-            img.classList.add('product-hidden');
-            nameP.classList.add('product-hidden', 'recomendation-name');
-            priceP.classList.add('product-hidden');
-
-            $(productContainer).hide();  // Hide the product container
-        } else {
-            productContainer.classList.add('product-item-container');
-            linkP.classList.add('product-item-link', 'product-item');
-            img.classList.add('product-item');
-            nameP.classList.add('product-item', 'recomendation-name');
-            priceP.classList.add('product-item');
-        }
-
-        // Append elements to the container
-        linkP.appendChild(img);
-        linkP.appendChild(nameP);
-        linkP.appendChild(priceP);
-        productContainer.appendChild(linkP);
-
-        return productContainer;
-    }
-
-    // Slide functions
-
-    function slideLeft(firstProduct, lastProduct) {
-        const container = document.getElementById('recommendationsContainer');
-        const leftButton = document.getElementById('button-left');
-        const rightButton = document.getElementById('button-right');
-        let displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
-        let hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-        $(rightButton).show();
-        console.log(window.innerWidth)
-
-        for (var i = 0; i < 5; i++) {
-            displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
-            function hideContainerL() {
-                if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
-                    let containerToHide = displayedContainers.pop();
-                    containerToHide.classList.remove('product-item-container');
-                    containerToHide.classList.add('product-hidden-container');
-                    containerToHide.classList.add('product-hidden-container');
-                    containerToHide.classList.remove('product-item-container');
-                    containerToHide.querySelectorAll('a').forEach(link => {
-                        link.classList.remove('product-item-link', 'product-item');
-                        link.classList.add('product-hidden-link')
-                    });
-                    containerToHide.querySelectorAll('img').forEach(subItem => {
-                        subItem.classList.remove('product-item');
-                        subItem.classList.add('product-hidden');
-                    });
-                    containerToHide.querySelectorAll('p').forEach(subItem => {
-                        subItem.classList.remove('product-item');
-                        $(containerToHide).hide();
-                        container.appendChild(containerToHide); // Add the hidden container to the end
-                        return containerToHide;
-                    });
-                }
-            }
-            function showContainerL() {
-                let containerToShow = hiddenContainers.shift();
-                containerToShow.classList.remove('product-hidden-container');
-                containerToShow.classList.add('product-item-container');
-                containerToShow.querySelectorAll('a').forEach(link => {
-                    link.classList.remove('product-hidden-link', 'product-hidden');
-                    link.classList.add('product-item-link', 'product-item')
-                });
-                containerToShow.querySelectorAll('img').forEach(subItem => {
-                    subItem.classList.remove('product-hidden');
-                    subItem.classList.add('product-item');
-                });
-                $(containerToShow).show(); // Show the entire product container
-                container.insertBefore(containerToShow, container.firstChild); // Add the displayed container to the beginning
-                return containerToShow;
-            }
-            if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
-                if (hiddenContainers.length === 1) {
-                    showContainer();
-
-                    for (var x = 0; x < 5; x++) {
-                        hideContainerL();
-                    }
-
-                    $(leftButton).hide();
-                    break;
-
-                }
-                if (displayedContainers.length === 1) {
-                    hideContainerL();
-
-                    for (var i = 0; i < 6; i++) {
-                        showContainerL();
-                    }
-                    $(rightButton).show();
-
-                }
-                if (displayedContainers[displayedContainers.length - 2] === lastProduct) {
-                    $(leftButton).hide();
-                    $(firstProduct).show();
-                    $(lastProduct).show();
-                    i = 5;
-                }
-                hideContainerL();
-                showContainerL();
-
-            } else {
-                console.log("No more products to slide left!");
-                $(leftButton).hide();
-            }
-        }
-
-    }
-
-    function slideRight(firstProduct, lastProduct) {
-        const leftButton = document.getElementById('button-left');
-        const rightButton = document.getElementById('button-right');
-        const container = document.getElementById('recommendationsContainer');
-        $(leftButton).show();
-
-        for (var i = 0; i < 5; i++) {
-            let displayedContainers = Array.from(document.getElementsByClassName('product-item-container'));
-            let hiddenContainers = Array.from(document.getElementsByClassName('product-hidden-container'));
-
-            function hideContainerR() {
-                let containerToHide = displayedContainers.shift(); // Remove the last displayed container
-                containerToHide.classList.remove('product-item-container');
-                // Move the last displayed container to hidden
-
-                containerToHide.classList.add('product-hidden-container');
-                containerToHide.querySelectorAll('a').forEach(link => {
-                    link.classList.remove('product-item-link', 'product-item');
-                    link.classList.add('product-hidden-link', 'product-hidden');
-                });
-                $(containerToHide).hide(); // Hide the entire product container
-                container.insertBefore(containerToHide, container.firstChild);
-                return containerToHide;
-
-            }
-            function showContainerR() {
-                let containerToShow = hiddenContainers.pop(); // Get the last hidden container
-                containerToShow.classList.remove('product-hidden-container');
-                containerToShow.classList.add('product-item-container');
-                containerToShow.querySelectorAll('a').forEach(link => {
-                    link.classList.remove('product-hidden-link', 'product-hidden');
-                    link.classList.add('product-item-link', 'product-item');
-                });
-                $(containerToShow).show(); // Show the entire product container
-                container.appendChild(containerToShow);
-                return containerToShow;
-            }
-
-            if (displayedContainers.length > 0 && hiddenContainers.length > 0) {
-
-                if (hiddenContainers.length === 1) {
-                    showContainerR();
-
-                    for (var x = 0; x < 5; x++) {
-                        hideContainerR();
-                    }
-
-                    $(rightButton).hide();
-
-                    break;
-                }
-                if (hiddenContainers.length > 0 && displayedContainers.length === 1) {
-                    hideContainerR();
-
-                    for (var i = 0; i < 5; i++) {
-                        showContainerR();
-                    }
-                    $(leftButton).show();
-                }
-                if (hiddenContainers[hiddenContainers.length - 2] === firstProduct) {
-                    $(rightButton).hide();
-                    i = 5;
-                    $(lastProduct).hide();
-                }
-
-                hideContainerR();
-                showContainerR();
-
-
-            } else {
-                console.log("No more products to slide right!");
-                $(rightButton).hide();
-            }
-        }
-    }
-
