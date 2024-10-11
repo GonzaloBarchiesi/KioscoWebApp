@@ -1,4 +1,6 @@
-﻿﻿
+﻿@{
+    Layout = "_LayoutForm";
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +37,7 @@
                         </ul>
                     </div>
                 </li>
-                <li><a id="opinions">Opiniones</a></li>
+                <li><a href="#" id="opiniones">Opiniones</a></li>
                 <li><a href="#">Promos</a></li>
             </ul>
             <div class="search">
@@ -44,43 +46,46 @@
         </nav>
     </header>
     <main>
-        <div class="text-form-div">
-            <h1>Compartí tu Opinión</h1>
-            <p class="text-form">
-                Tenes alguna recomendación o sugerencia para implementar en el kiosco/web? <br>
-                Tenés alguna queja que queres expresar y no sabés donde dejarla?<br>
-                Dejala acá, <strong>este es tu lugar</strong><br>
-            </p>
-            <p class="text-form">
-                Estamos dispuestos a leer sus sugerencias, se deben respetar los lineamientos generales de todo forumulario
-            </p>
-        </div>
+        <div class="main-div">
+            <div id="form-div">
+                <h1>Compartí tu Opinión</h1>
+                <div id="text-div" class="text-form">
+                  
+                    <ul>
+                        <li class="text-form">Tenes alguna recomendación o sugerencia para implementar en el kiosco/web?</li>
+                        <li class="text-form"> Tenés alguna queja que queres expresar y no sabés donde dejarla?</li>
+                        <li class="text-form">Dejala acá, <strong>este es tu lugar</strong></li>
+                    </ul>
+                    <p text-form>Estamos dispuestos a leer sus sugerencias, se deben respetar los <strong>lineamientos generales</strong> de todo formulario</p>
+                </div>
 
-        <section>
-            <div class="form-box">
-                <div class="form-value">
-                    <form id="myForm" action="https://formspree.io/f/mldrkglz"
-                          method="POST">
-                        <h2>Opiniones</h2>
-                        <div class="inputbox">
-                            <input type="email" name="email" required="" id="email" class="input">
-                            <label for="">Email</label>
-                        </div>
-                        <div class="inputbox">
-                            <textarea name="message" required="" placeholder="Decinos tu opinion o sugerencia de la pagina"></textarea>
-                        </div>
+                <div class="form-box">
+                    <div class="form-value">
+                        <form id="myForm" action="https://formspree.io/f/mldrkglz"
+                              method="POST">
+                            <h2>Opiniones</h2>
+                            <div class="inputbox">
+                                <input type="email" name="email" required="" id="email" class="input">
+                                <label for="">Email</label>
+                            </div>
+                            <div class="inputbox">
+                                <textarea name="message" required="" placeholder="Decinos tu opinion o sugerencia de la pagina"></textarea>
+                            </div>
 
-                        <button type="submit" id="submitBut" class="btn"> Send</button>
-                    </form>
+                            <button type="submit" id="submitBut" class="btn"> Send</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+        
+       
     </main>
-    <footer class="footer">
+  @*   <footer class="footer">
         <a href="https://www.instagram.com/promo25biro/" target="_blank">
             <img src="/assets/redes-sociales/instagram.svg" alt="Instagram">
         </a>
-    </footer>
+    </footer> *@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="~/js/opiniones.js"></script>
 </body>

@@ -1,12 +1,12 @@
 ﻿//funciones principales para display productos recomendados
 
-let productsPerPage; //productos por pagina recomendados\
+let productsPerPage; //productos por pagina recomendados\\
 let beforeProductsPerPage;
 let currentIndex = 0;
 let endIndex = 0;
-setProductsPerPage();
+setProductsPerPage(); // <------
 
-function setProductsPerPage() { //ajustar productos per swipe
+function setProductsPerPage() { //ajustar productos per swipe (cada vez que se ajusta la pagina) y cuando inicia
     let windowWidth = window.innerWidth;
     beforeProductsPerPage = productsPerPage;
     if (windowWidth > 1450) {
@@ -18,32 +18,24 @@ function setProductsPerPage() { //ajustar productos per swipe
     } else {
         productsPerPage = 2;
     }
-    //if (beforeProductsPerPage > productsPerPage) {
-    //    currentIndex++;
-    //}
-    
-    //if (currentIndex % productsPerPage != 0) {
-    //    let x = currentIndex % productsPerPage;
-    //    currentIndex -= x;
-    //}
     initializeProducts(currentIndex); //inicializar productos en base a este cambio
     return { productsPerPage, beforeProductsPerPage };
 }
 window.addEventListener("resize", (event) => { //Cada vez que la pagina comete risize se actualizan los productos
-    setProductsPerPage();
+        setProductsPerPage();
+    
 });
 
 const product = document.getElementById('productId');
 const productId = product ? parseInt(product.getAttribute('productId'), 10) : null;
 let url = "";
-// Function to fetch and display products
 async function initializeProducts(index) {
     const fetchedUrl = await fetchCategory();
     if (fetchedUrl) {
         fetchProducts(fetchedUrl, currentIndex); 
     }
 }
-
+//FUNCION PARA FETCHEAR LA CATEGORIA DEL PRODUCTO EN CUESTION
 async function fetchCategory() {
     try {
         const response = await fetch("https://localhost:7202/productsCategories/GetProductCategories");
@@ -71,7 +63,7 @@ async function fetchCategory() {
     }
 }
 
-
+// DEFINE TODOS LOS PRODUCTOS RELACIONADOS Y SE CREAN LOS BOTONES (fetcheando desde la categoria del producto principal)
  async function fetchProducts(url, index) {
      try {
          const response = await fetch(url); // URL to your JSON file
@@ -104,18 +96,26 @@ async function fetchCategory() {
         console.error("Error fetching products:", error);
     }
 }
-  function displayProducts(startIndex, products) {
+//SE DISPLAYAN LOS PRODUCTOS SACADOS DESDE UN INDICE DETERMINADO HASTA OTRO INDICE DETERMINADO (start/end index)
+function displayProducts(startIndex, products) {
+    let displayedProducts = document.getElementsByClassName('product-item-container');
     let productsContainer = document.getElementById("recommendationsContainer");
     productsContainer.innerHTML = ""; // Clear the container
       endIndex = startIndex + productsPerPage;
       if (endIndex % productsPerPage != 0) {
-          if (products.length <= endIndex) {
-              endIndex = products.length - 1;
-              startIndex = endIndex - productsPerPage;
+           if (products.length <= endIndex) {
+               endIndex = products.length - 1;
+               if (displayedProducts != 1 && productsPerPage != displayedProducts + 1) {
+                   startIndex = endIndex - productsPerPage;
+               }
           }
           
-      }
+    }
+    //Estos ifs son para modificar los indices cada vez que se modifica el tamaño de la pagina y necesita ser cambiado, es un poco entreverado pero bueno
 
+
+
+      //CREACION BOTONES
     const buttonL = document.createElement("button");
     buttonL.classList.add("icon-button")
     buttonL.id = "button-left";
@@ -133,10 +133,11 @@ async function fetchCategory() {
     iconR.classList.add("material-symbols-outlined");
     iconR.id = "icon-right";
     buttonR.appendChild(iconR);
-
+    
     productsContainer.appendChild(buttonL);
     productsContainer.appendChild(buttonR);
- 
+
+ //Se limpian posibles productos indefinidos y el mismo producto que el principal
       for (var i = 0; i < products.length; i++) {
           if (products[i] === undefined) {
               break;
@@ -145,11 +146,12 @@ async function fetchCategory() {
           if (productId === product.productId) {
               products.splice(i, 1);
           }
-      }
-      let productsToShow = products.slice(startIndex, endIndex); // Get the products to display
-      Array.from(productsToShow).forEach(product => {
-         
-          // Create product elements
+    }
+    //Se crea el div de cada producto a traves de los indices cortando todos los productos relacionados
+      let productsToShow = products.slice(startIndex, endIndex); 
+    Array.from(productsToShow).forEach(product => {
+
+          //CREACION Product-item-containers
           const productDiv = document.createElement("div");
           productDiv.classList.add("product-item-container");
 
@@ -170,13 +172,12 @@ async function fetchCategory() {
           price.textContent = `$${product.price}`;
           price.classList.add("product-item")
 
-          // Append elements to product div
+          //Se appendean cada propiedad de producto con el indice y el mismo con el container
           productDiv.appendChild(linkP);
           linkP.appendChild(img);
           linkP.appendChild(name);
-          linkP.appendChild(price);
-
-          // Append product div to container
+        linkP.appendChild(price);
+        // Se appendea cada product-container con el recommendationContainer
           productsContainer.appendChild(productDiv);
 
       });
@@ -185,13 +186,13 @@ async function fetchCategory() {
       }
 
 
-// Otras funciones de la pagina---------------------------
+// Otras funciones de la pagina---------------------------------------------------------------------------
 
 function closePage() {
     window.location.href = "/Products/Index"
 }
 
-// Search bar logic for redirecting to the search page
+// Funciones searchBar
 const searchBar = document.getElementById('searchBar');
 searchBar.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
@@ -200,7 +201,9 @@ searchBar.addEventListener('keypress', function (e) {
         url = "https://localhost:7202/Products/Index/?name=" + encodeURIComponent(search);
         document.location.href = url;
     }
-});
+}); 
+
+//FUNCIONES CATEGORYBUTTONS
 const alfajoresButton = document.getElementById('alfajoresBut');
 const bebidasButton = document.getElementById('bebidasBut');
 const snacksButton = document.getElementById('snacksBut');
@@ -218,7 +221,7 @@ function GetCategory(catId) {
 }
 alfajoresButton.addEventListener('click', function () {
     let catId = 1;
-    GetCategory(catId);
+    S(catId);
 });
 
 bebidasButton.addEventListener('click', function () {
