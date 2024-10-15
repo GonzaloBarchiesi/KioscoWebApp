@@ -117,6 +117,7 @@ function displayProducts(startIndex, products) {
 
       //CREACION BOTONES
     const buttonL = document.createElement("button");
+    buttonL.innerHTML = '<img src="/assets/Arrows/chevron-left.svg" alt="left">';
     buttonL.classList.add("icon-button")
     buttonL.id = "button-left";
 
@@ -126,6 +127,7 @@ function displayProducts(startIndex, products) {
     buttonL.appendChild(iconL);
 
     const buttonR = document.createElement("button");
+    buttonR.innerHTML = '<img src="/assets/Arrows/chevron-right.svg" alt="left">';
     buttonR.classList.add("icon-button")
     buttonR.id = ("button-right");
 
