@@ -61,30 +61,32 @@
         });
     </script>
 
-    <div class="wrapper">
-        <div class="grid-producto" id="grid-producto">
-            @foreach (var product in Model)
-            {
-                <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
-                    <div class="producto">
-                        @if (product.Quantity > 0)
+    <main class="wrapper">
+        <div>
+            <div class="grid-producto" id="grid-producto">
+                @foreach (var product in Model)
+                {
+                    <a class="producto-link" href="/Products/Details/?id=@product.ProductId" data-product-id="@product.ProductId">
+                        <div class="producto">
+                            @if (product.Quantity > 0)
 
-                        {
-                            <img class="producto" src="@product.ProductImage">
-                        }
-                        else
+                            {
+                                <img class="producto" src="@product.ProductImage">
+                            }
+                            else
 
-                        {
-                            <img class="producto" src="@product.ProductImage2">
-                        }
-                        <h2 class="nombre-producto">@product.ProductName</h2>
-                        <p class="precio-producto">$@product.Price</p>
+                            {
+                                <img class="producto" src="@product.ProductImage2">
+                            }
+                            <h2 class="nombre-producto">@product.ProductName</h2>
+                            <p class="precio-producto">$@product.Price</p>
 
-                    </div>
-                </a>
-            }
+                        </div>
+                    </a>
+                }
+            </div>
         </div>
-    </div>
+    </main>
 
 
     @section Scripts {
