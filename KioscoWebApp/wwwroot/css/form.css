@@ -7,51 +7,200 @@
 *::before {
     box-sizing: inherit;
 }
-
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(../assets/form/form-background.jpg);
+    font-family: "Roboto", sans-serif;
+    position: relative;
+    margin: 0;
+    min-height: 85rem;
+}
 h1 {
     font-weight: bold;
     font-size: 2.3rem;
-    text-align: left;
+    text-align: center;
     height: 50px;
+    color: hsl(233, 26%, 35%);
     position: absolute;
+    width: 650px;
 }
 
+/*BARRA DE NAVEGACION*/
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: black;
+    background-color: var(--default-bg-color);
+}
+
+    .logo img {
+        height: 100px;
+        width: auto;
+        cursor: pointer;
+    }
+
+    .nav-items {
+        display: flex;
+        list-style: none;
+        gap: 50px;
+    }
+
+        .nav-items li {
+            position: relative;
+        }
+
+        .nav-items a {
+            color: black;
+            font-size: 1.4rem;
+            letter-spacing: 1.3px;
+            text-decoration: none;
+            display: block;
+            font-style: italic;
+        }
+
+    .search input {
+         height: 40px;
+    width: 100%;
+    padding: 10px 10px 10px 15px;
+    border-radius: 2px;
+    border: .5px solid #fff;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-size: 1rem;
+    outline: none;
+    
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: var(--default-bg-color);
+        min-width: 160px;
+        z-index: 1;
+    }
+
+    ul {
+        list-style: none;
+        padding: 5px;
+    }
+
+    span {
+        position: absolute;
+    }
+
+    .dropdown-content button {
+        background: none;
+        border: none;
+        padding: 10px 10px;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+        color: black;
+        font-size: 1.2rem;
+        font-weight: lighter;
+        
+    }
+
+        .dropdown-content button:hover {
+            background-color: hsl(198, 89%, 94%);
+            color: hsl(233, 36%, 47%);
+            font-weight: bold;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+    .hamburger {
+        display: none;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 25px;
+        z-index: 1001;
+    }
+
+    .bar {
+        width: 100%;
+        height: 4px;
+        background-color: white;
+        transition: 0.3s;
+    }
+
+    .hamburger.open .bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.open .bar:nth-child(3) {
+        transform: rotate(-45deg) translate(10px, -10px);
+    }
+    #opinions:hover {
+    cursor: pointer;
+}
+    /*FOOTER*/
 .footer {
-    position: static;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
     display: flex;
     background-color: var(--default-bg-color);
     padding: 2em 1em;
     justify-content: center;
-    align-items: center;
-   
+    align-items: center; 
+    margin-top: 100px;
+    
+    
 }
-.Content {
-    background-image: url(../assets/form/form-background.jpg);
-}
-#opinions:hover {
-    cursor: pointer;
-}
+
+    .footer a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .footer img {
+        height: 30px;
+        vertical-align: middle;
+        display: inline-block;
+    }
 
 /*-----*/
 .main-div {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    height: 100rem;
+    height: 30rem;
 }
 #form-div {
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
-    height: 70rem;
+    height: 50rem;
     width: 90rem;
     margin: auto;
-    /*margin-bottom: 1050px;*/
     padding: 100px;
-    background-color: hsl(212, 99%, 98%);
     border-radius: 25px;
 }
+    #form-div p {
+        border-radius: 10px;
+        margin-top: 60px;
+        text-align: center;
+        color: black;
+        font-size: 15px;
+    }
         .form-box {
             position: relative;
             width: 400px;
@@ -73,64 +222,39 @@ h1 {
         justify-content: space-between;
         align-items: center;
         width: 650px;        
-        height: 750px;
-        border-radius: 15px;
-        margin-top: 50px;
-    
+        height: 650px;
+        border-radius: 25px;
+        margin-top: 150px;
+        background-color: white;
+        padding-left: 50px;
+        padding-right: 50px;
+        
+        
     }
         .text-form:hover + .form-box {
-            animation-name: glowForm;
-           animation-duration: 0.5s;
-           animation-fill-mode: forwards;
+            
         }
-@keyframes glowForm {
 
-    0% {
-        box-shadow: 0px 0px 15px 10px hsl(194, 15%, 95%);
-    }
-    20% {
-        box-shadow: 0px 0px 15px 10px hsl(194, 25%, 94%);
-    }
-    40% {
-        box-shadow: 0px 0px 15px 10px hsl(194, 35%, 90%);
-    }
-    60% {
-        box-shadow: 0px 0px 15px 10px hsl(194, 45%, 90%);
-    }
-    80% {
-        box-shadow: 0px 0px 15px 10px hsl(194, 55%, 90%);
-    }
-    100% {
-        box-shadow: 0px 0px 15px 10px hsl(194, 65%, 90%);
-    }
+
+.text-form {
+    text-align: left;
+    font-size: 1.3rem;
+    width: 650px;
+    overflow: hidden;
+    color: hsl(233, 26%, 35%);
+    
 }
+    .text-form li {
+        margin: 115px ;
+        font-size: 1.3rem;
+        border-radius: 15px;
+        color: hsl(233, 26%, 35%);
+    }
+            .text-form li::before {
+                content: "\2605";
+                color: hsl(45, 100%, 50%);
+        }
 
-                .text-form {
-                text-align: left;
-                font-size: 1.3rem;
-                width: 650px;
-                overflow: hidden;
-                color: hsl(233, 26%, 35%);
-               
-        
-            }
-                    .text-form li {
-                        font-size: 1.3rem;
-                        border-radius: 15px;
-                        color: hsl(233, 26%, 35%);
-                        margin-top: 150px;
-                        
-                    }
-                        .text-form li::before {
-                        content: "\2605";
-                         color: hsl(45, 100%, 50%);
-                    }
-
-                .text-form p {
-                    border-radius: 10px;
-                    margin-top: 60px;
-                    text-align: center;
-                }
 
 /*section {
     margin: 100px 0;
