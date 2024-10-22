@@ -16,7 +16,7 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="/assets/logo/kisoco-modified.png" alt="Kiosco" onclick="closePage()">
+                <img src="/assets/logo/kisoco-modified.png" alt="Kiosco" onclick="ShowItems()">
             </div>
             <div class="hamburger" id="hamburger">
                 <div class="bar"></div>
@@ -24,60 +24,69 @@
                 <div class="bar"></div>
             </div>
             <ul class="nav-items" id="nav-items">
-                <li class="dropdown"  id="dropdown">
-                    <a href="#" class="dropbtn" onclick="Expand()">Categorías<span>&#9662;</span></a>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Categorías<span>&#9662;</span></a>
                     <div class="dropdown-content">
                         <ul>
-                            <li><button id="alfajoresBut" class="category-button">Alfajores</button></li>
-                            <li><button id="bebidasBut" class="category-button">Bebidas</button></li>
-                            <li><button id="snacksBut" class="category-button">Snacks</button></li>
-                            <li><button id="chiclesBut" class="category-button">Chicles</button></li>
-                            <li><button id="dulcesBut" class="category-button">Dulces</button></li>
-                            <li><button id="galletitasBut" class="category-button">Galletitas</button></li>
+                            <li><button id="alfajoresBut">Alfajores</button></li>
+                            <li><button id="bebidasBut">Bebidas</button></li>
+                            <li><button id="snacksBut">Snacks</button></li>
+                            <li><button id="chiclesBut">Chicles</button></li>
+                            <li><button id="dulcesBut">Dulces</button></li>
+                            <li><button id="galletitasBut">Galletitas</button></li>
                         </ul>
                     </div>
                 </li>
-                <li><a href="#" id="opiniones">Opiniones</a></li>
-                <li><a href="#">Promos</a></li>
+                <li><a id="opinions">Opiniones</a></li>
+                <li><a href="">Promos</a></li>
             </ul>
             <div class="search">
                 <input type="search" placeholder="Buscar productos" id="searchBar">
             </div>
         </nav>
     </header>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navItems = document.getElementById('nav-items');
+
+        hamburger.addEventListener('click', () => {
+            navItems.classList.toggle('open');
+            hamburger.classList.toggle('open');
+        });
+    </script>
+
     <main>
-        <div class="main-div">
-            <div id="form-div">
-                <h1>Compartí tu Opinión con nosotros</h1>
-                <div id="text-div" class="text-form">
-                  
-                    <ul>
-                        <li class="text-form">Tenes alguna recomendación o sugerencia para implementar en el kiosco/web?</li>
-                        <li class="text-form"> Tenés alguna queja que queres expresar y no sabés donde dejarla?</li>
-                        <li class="text-form">Dejala acá, <strong>este es tu lugar</strong></li>
-                    </ul>
-                   
-                </div>
+        <h1>Compartí tu opinión con nosotros</h1>
+        <div id="main-div">
+            <div id="text-div" class="text-form">
 
-                <div class="form-box">
-                    <div class="form-value">
-                        <form id="myForm" action="https://formspree.io/f/mldrkglz"
-                              method="POST">
-                            <h2>Opiniones</h2>
-                            <div class="inputbox">
-                                <input type="email" name="email" required="" id="email" class="input">
-                                <label for="">Email</label>
-                            </div>
-                            <div class="inputbox">
-                                <textarea name="message" required="" placeholder="Decinos tu opinion o sugerencia de la pagina"></textarea>
-                            </div>
+                <ul>
+                    <li class="text-form">Tenes alguna recomendación o sugerencia para implementar en el kiosco/web?</li>
+                    <li class="text-form"> Tenés alguna queja que queres expresar y no sabés donde dejarla?</li>
+                    <li class="text-form">Dejala acá, <strong>este es tu lugar</strong></li>
+                </ul>
 
-                            <button type="submit" id="submitBut" class="btn"> Send</button>
-                        </form>
-                    </div>
-                </div>
-                 <p text-form>Estamos dispuestos a leer sus sugerencias, se deben respetar los <strong>lineamientos generales</strong> de todo formulario</p>
             </div>
+
+            <div class="form-box">
+                <div class="form-value">
+                    <form id="myForm" action="https://formspree.io/f/mldrkglz"
+                          method="POST">
+                        <h2>Opiniones</h2>
+                        <div class="inputbox">
+                            <input type="email" name="email" required="" id="email" class="input">
+                            <label for="">Email</label>
+                        </div>
+                        <div class="inputbox">
+                            <textarea name="message" required="" placeholder="Decinos tu opinion o sugerencia de la pagina"></textarea>
+                        </div>
+
+                        <button type="submit" id="submitBut" class="btn"> Send</button>
+                    </form>
+                </div>
+            </div>
+            <p text-form>Estamos dispuestos a leer sus sugerencias, se deben respetar los <strong>lineamientos generales</strong> de todo formulario</p>
         </div>
     </main>
     <footer class="footer">
