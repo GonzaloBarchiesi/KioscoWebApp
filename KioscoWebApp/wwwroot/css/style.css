@@ -127,7 +127,7 @@ span {
 }
 
 .hamburger.open .bar:nth-child(3) {
-    transform: rotate(-45deg) translate(9px, -9px);
+    transform: rotate(-45deg) translate(10px, -10px);
 }
 
 .grid-producto {
@@ -226,10 +226,6 @@ span {
 
     .nav-items.open {
         transform: translateX(0);
-    }
-
-    .search {
-        display: none;
     }
 
     .hamburger {

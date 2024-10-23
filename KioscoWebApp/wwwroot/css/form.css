@@ -128,7 +128,7 @@ span {
 }
 
 .hamburger.open .bar:nth-child(3) {
-    transform: rotate(-45deg) translate(9px, -9px);
+    transform: rotate(-45deg) translate(10px, -10px);
 }
 
 #opinions:hover {
@@ -319,18 +319,18 @@ textarea::placeholder {
         padding: 0 10px;
     }
 
-        .search input {
-            width: 100%;
-            max-width: 200px;
-            padding: 5px;
-            height: 40px;
-            border-radius: 2px;
-            border: 0.5px solid #fff;
-            background-color: #fff;
-            color: #000;
-            outline: none;
-            text-align: center;
-        }
+    .search input {
+        width: 100%;
+        max-width: 200px;
+        padding: 5px;
+        height: 40px;
+        border-radius: 2px;
+        border: 0.5px solid #fff;
+        background-color: #fff;
+        color: #000;
+        outline: none;
+        text-align: center;
+    }
 
     .hamburger {
         order: 3;
