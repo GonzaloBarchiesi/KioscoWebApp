@@ -90,4 +90,11 @@ dulcesButton.addEventListener("click", function () {
 galletitasButton.addEventListener('click', function () {
     let catId = 6;
     GetCategory(catId);
-});
+}); 
+categoryButton = Array.from(document.getElementById("dropdown"));
+categories = Array.from(document.getElementsByClassName("category-button"));
+let isExpand = false;
+// FUNCION CERRAR LA PAGINA
+function closePage() {
+    window.location.href = "/Products/Index"
+}
